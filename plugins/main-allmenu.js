@@ -124,6 +124,5 @@ ${menuFormat.footer.replace('╰───────────────', 
 handler.help = ['allmenu']
 handler.tags = ['main']
 handler.command = ['menu2', 'menú', 'allmenu', 'menucompleto']
-handler.register = true
 
 export default handler
