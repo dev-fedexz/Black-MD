@@ -1,5 +1,6 @@
 import fs from 'fs'
 
+// Función de utilidad para convertir segundos a formato HH:MM:SS
 function clockString(seconds) {
   let h = Math.floor(seconds / 3600)
   let m = Math.floor(seconds % 3600 / 60)
@@ -7,64 +8,69 @@ function clockString(seconds) {
   return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
 }
 
+// Handler principal
 let handler = async (m, { conn, usedPrefix }) => {
   const delay = ms => new Promise(res => setTimeout(res, ms))
 
+  // Asegurar que global.db.data.users existe
   if (!global.db || !global.db.data || !global.db.data.users) {
       return conn.reply(m.chat, '❌ Error: La base de datos de usuarios no está inicializada.', m)
   }
   
+  // Definición de las etiquetas del menú
   const tags = {
-    'main': '🏠 ɪɴғᴏ ᴘʀɪɴᴄɪᴘᴀʟ',
-    'info': '💡 ɪɴғᴏ ʏ ᴜᴛɪʟɪᴅᴀᴅᴇs',
-    'group': '👥 ᴀᴅᴍɪɴɪsᴛʀᴀᴄɪóɴ ᴅᴇ ɢʀᴜᴘᴏ',
-    'economy': '💰 ᴇᴄᴏɴᴏᴍíᴀ ʏ ᴊᴜᴇɢᴏs',
-    'game': '🎲 ᴊᴜᴇɢᴏs ᴀᴅɪᴄɪᴏɴᴀʟᴇs',
-    'fun': '✨ ғᴜɴᴄɪᴏɴᴇs ᴅɪᴠᴇʀᴛɪᴅᴀs',
-    'sticker': '🖼️ ᴄʀᴇᴀᴄɪóɴ ᴅᴇ sᴛɪᴄᴋᴇʀs',
-    'downloader': '📥 ᴅᴇsᴄᴀʀɢᴀs ᴍᴜʟᴛɪᴍᴇᴅɪᴀ',
-    'anime': '🌸 ғᴜɴᴄɪᴏɴᴇs ᴀɴɪᴍᴇ',
-    'jutsus': '🎯 ɴᴀʀᴜᴛᴏ-sʜɪᴘᴜᴅᴇɴ',
-    'buscador': '🔍 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ʙúsϙᴜᴇᴅᴀ',
-    'herramientas': '🛠️ ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs ʏ ᴜᴛɪʟɪᴅᴀᴅᴇs',
-    'ai': '🤖 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ɪɴᴛᴇʟɪɢᴇɴᴄɪᴀ ᴀʀᴛɪғɪᴄɪᴀʟ',
-    'nable': '⚙️ ᴄᴏɴғɪɢᴜʀᴀᴄɪóɴ (ᴏɴ/ᴏғғ)',
-    'nsfw': '🔞 ɴsғᴡ (ᴘᴇʟɪɢʀᴏsᴏ)',
-    'serbot': '👑 ғᴜɴᴄɪᴏɴᴇs ᴅᴇʟ ᴊᴀᴅɪʙᴏᴛ',
-    'owner': '🔥 ᴏᴘᴄɪᴏɴᴇs ᴅᴇʟ ᴘʀᴏᴘɪᴇᴛᴀʀɪᴏ',
+    'main': '❖  ＩＮＦＯ ＤＥＬ ＢＯＴ',
+    'info': '🌐  ＩＮＦＯ Ｙ ＵＴＩＬＩＤＡＤＥＳ',
+    'group': '👥  ＡＤＭＩＮ ＤＥ ＧＲＵＰＯ',
+    'economy': '💰  ＪＵＥＧＯＳ Ｙ ＥＣＯＮＯＭÍＡ',
+    'game': '🎮  ＪＵＥＧＯＳ ＡＤＩＣＩＯＮＡＬＥＳ',
+    'fun': '✨  ＦＵＮＣＩＯＮＥＳ ＤＩＶＥＲＴＩＤＡＳ',
+    'sticker': '🖼️  ＣＲＥＡＣＩÓＮ ＤＥ ＳＴＩＣＫＥＲＳ',
+    'downloader': '⬇️  ＤＥＳＣＡＲＧＡＳ ＭＵＬＴＩＭＥＤＩＡ',
+    'anime': '🍥  ＦＵＮＣＩＯＮＥＳ ＡＮＩＭＥ',
+    'jutsus': '🎯  ＮＡＲＵＴＯ-ＳＨＩＰＵＤＥＮ',
+    'buscador': '🔎  ＢÚＳＱＵＥＤＡＳ',
+    'herramientas': '🛠️  ＨＥＲＲＡＭＩＥＮＴＡＳ',
+    'ai': '🧠  ＩＮＴＥＬＩＧＥＮＣＩＡ ＡＲＴＩＦＩＣＩＡＬ',
+    'nable': '⚙️  ＣＯＮＦＩＧＵＲＡＣＩÓＮ',
+    'nsfw': '🔞  ＮＳＦＷ (ＥＸＴＲＥＭＯ)',
+    'serbot': '🤖  ＪＡＤＩＢＯＴＳ',
+    'owner': '👑  ＯＰＣＩＯＮＥＳ ＤＥＬ ＰＲＯＰＩＥＴＡＲＩＯ',
   }
 
-  // Estructura del menú
+  // Nuevo Formato de Diseño del Menú
   const menuFormat = {
-    header: '╭─「 %category 」',
-    body: '│ 🪴➺ %cmd',
-    footer: '╰───────────────',
+    header: '╔═⌘「 %category 」⌘',
+    body: '║  ⬡  `%cmd`',
+    footer: '╚═══════════════',
     after: `> 𝖨𝗍𝖺𝖼𝗁𝗂-𝖡𝗈𝗍-𝖬𝖣 | 𝖡𝗋𝖺𝗒𝖺𝗇 𝖴𝖼𝗁𝗂𝗁𝖺`
   }
 
   // --- Datos del Usuario y Bot ---
   const user = global.db.data.users[m.sender]
   const nombre = await conn.getName(m.sender)
-  const premium = user.premium ? '❌' : '✅'
   const limite = user.limit || 0
   const totalreg = Object.keys(global.db.data.users).length
   const muptime = clockString(process.uptime())
+  const taguser = '@' + m.sender.split('@')[0]
 
   // --- Información del Usuario (Plantilla Literal) ---
   const infoUser = `
-🍁 _¡Hola!_ *🥀¡Muy buenos días🌅, tardes🌇 o noches🌆!*
+👋 *¡HOLA ${taguser}!*
 
-> 🎳 \`Shadow-Bot\` es un sistema automatizado diseñado para interactuar mediante comandos. Permite realizar acciones como descargar videos de distintas plataformas, hacer búsquedas en la \`web\`, y disfrutar de una variedad de juegos dentro del \`chat\`.
+> 🔮 *Itachi-Bot* es tu asistente automático de WhatsApp.
 
-━━━━━━━━━━━━━
-\`❒ ᴄᴏɴᴛᴇxᴛ-ɪɴғᴏ ☔\`
-${menuFormat.header.replace('╭─「 %category 」', '┌───────────')}
-│ 🚩 *User:* ${nombre}
-│ 📜 *Premium:* ${user.premium ? '✅ SI' : '❌ NO'}
-│ 🌟 *Límite:* ${limite}
-│ 🏓 *Activo:* ${muptime}
-│ 👤 *Usuarios:* ${totalreg}
-${menuFormat.footer.replace('╰───────────────', '└───────────')}
+╔═══ ❖ 𝙄𝙉𝙁𝙊 𝘿𝙀 𝙐𝙎𝙐𝘼𝙍𝙄𝙊 
+║ 👤 *Usuario:* ${nombre}
+║ 👑 *Premium:* ${user.premium ? '✅ SI' : '❌ NO'}
+║ 🌟 *Límite:* ${limite}
+╚═══════════════
+
+╔═══ ❖ 𝙄𝙉𝙁𝙊 𝘿𝙀𝙇 𝘽𝙊𝙏
+║ ⏱️ *Actividad:* ${muptime}
+║ 🫂 *Usuarios Totales:* ${totalreg}
+║ ⚙️ *Prefijo:* \`${usedPrefix}\`
+╚═══════════════
 `.trim()
 
   // --- Obtener Comandos ---
@@ -90,10 +96,13 @@ ${menuFormat.footer.replace('╰───────────────', 
   }
 
   // --- Mensaje Final ---
-  const finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + menuFormat.after
+  // Unir la información del usuario y el menú de comandos
+  const finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n\n' + menuFormat.after
   
-  const icono = 'https://telegra.ph/file/5a5d095932591605658e8.jpg'
+  // URL del icono (asegúrate de que esta variable esté definida o reemplaza la URL)
+  const icono = 'https://telegra.ph/file/5a5d095932591605658e8.jpg' 
 
+  // --- Envío del Mensaje ---
   await conn.sendMessage(m.chat, {
       video: { url: 'https://raw.githubusercontent.com/El-brayan502/dat3/main/uploads/899fc7-1762129754657.mp4' },
       gifPlayback: true,
@@ -102,14 +111,13 @@ ${menuFormat.footer.replace('╰───────────────', 
           isForwarded: true,
           forwardedNewsletterMessageInfo: {
               newsletterJid: '120363417186717632@newsletter',
-              newsletterName: 'Shadow`S - IA| Channel',
+              newsletterName: 'Itachi-Bot-MD | Channel',
               serverMessageId: -1
           },
           externalAdReply: {
-              title: '🌴 Shadow - Bot 🌴',
-              body: 'Shadow - MD| Dev-fedexyz',
+              title: '🌴 𝖨𝗍𝖺𝖼𝗁𝗂-𝖻𝗈𝗍-𝖬𝖣 🌴',
+              body: '𝘐𝘛𝘈𝘊𝘏𝘐-𝘉𝘖𝘛 | 𝘉𝘙𝘈𝘠𝘈𝘕 𝘜𝘊𝘏𝘐𝘏𝘈',
               thumbnailUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
-              // Usar 'fetch' solo si 'icono' no está pre-cargado globalmente
               thumbnail: await (await fetch(icono)).buffer(), 
               sourceUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
               mediaType: 1,
@@ -124,5 +132,6 @@ ${menuFormat.footer.replace('╰───────────────', 
 handler.help = ['allmenu']
 handler.tags = ['main']
 handler.command = ['menu2', 'menú', 'allmenu', 'menucompleto']
+handler.register = true
 
 export default handler
