@@ -18,16 +18,16 @@
     "eslint": "eslint .",
     "eslintfix": "eslint --fix ."
   },
-  "homepage": "https://github.com/JoseXrl15k/Nino-Nakano",
+  "homepage": "https://github.com/dev-fedexyzz/Shadow-Bot",
   "author": {
     "name": "Dev-fedexyz"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JoseXrl15k/Nino-Nakano.git"
+    "url": "git+https://github.com/dev-fedexyzz/Shadow-Bot.git"
   },
   "bugs": {
-    "url": "https://github.com/JoseXrl15k/Nino-Nakano/issues"
+    "url": "https://github.com/dev-fedexyzz/Shadow-Bot/issues"
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
