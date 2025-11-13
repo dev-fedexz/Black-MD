@@ -1,10 +1,3 @@
-/**
- * Extiende la conexión con funciones personalizadas
- * Compatible con el cualquier baileys 
- * El bot detecta en grupos con @lid
- * CREATOR BRAYANX330 | ALIAS NAGATO
- */
-
 import { watchFile, unwatchFile } from 'fs' 
 import chalk from 'chalk'
 import { fileURLToPath } from 'url'
@@ -18,8 +11,7 @@ import moment from 'moment-timezone'
  
 global.owner = [
   ['5491124918653', ' 𝘊𝘳𝘦𝘢𝘥𝘰𝘳 🌾', true],
-  ['50231458537', 'BrayanX330 👑', true],
-  ['573244278232', '𝖧𝖺𝗌𝗁𝗂𝗋𝖺𝗆𝖺', true],
+  ['5491162424280', 'Dev-fedexy 👑', true],
 ];
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
