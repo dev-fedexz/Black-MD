@@ -43,8 +43,8 @@ global.vs = '2.2.0'
 global.vsJB = '5.0'
 global.nameqr = 'Shadow - Bot'
 global.namebot = 'Shadow`S - Bot'
-global.sessions = 'ItachiSessions'
-global.jadi = 'jadibts' 
+global.sessions = 'Shadow/Sessions'
+global.jadi = 'Shadow/Jadibos' 
 global.ItachiJadibts = true
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
