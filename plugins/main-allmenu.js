@@ -74,7 +74,7 @@ let handler = async (m, { conn, usedPrefix}) => {
 
   let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
 
-  let bannerUrl = 'https://files.catbox.moe/c65bk7.jpg';
+  let bannerUrl = 'https://files.catbox.moe/c65bk7.jpg'; // Se mantiene para el thumbnail del externalAdReply
   let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
   
   // Objeto 'media' necesario para el interactiveMessage
@@ -94,7 +94,7 @@ let handler = async (m, { conn, usedPrefix}) => {
           externalAdReply: {
               title: '🌵 ᴋᴜʀᴜᴍɪ ʙᴏᴛ - ᴏғғɪᴄɪᴀʟ',
               body: '© ᴍᴀᴅᴇ ʙʏ ᴅᴇᴠ-ғᴇᴅᴇxʏᴢᴢ',
-              thumbnailUrl: bannerUrl,
+              thumbnailUrl: bannerUrl, // El thumbnail en el AdReply sigue siendo la imagen
               mediaType: 1,
               renderLargerThumbnail: true
           }
@@ -108,7 +108,7 @@ let handler = async (m, { conn, usedPrefix}) => {
     header: {
       title: '',
       hasMediaAttachment: true,
-      documentMessage: media.documentMessage
+      documentMessage: media.documentMessage // Solo el video aquí
     },
     body: { text: finalMenu }, // Usamos finalMenu como texto principal
     /*footer: { text: '⠀' },*/
@@ -137,7 +137,7 @@ let handler = async (m, { conn, usedPrefix}) => {
       mentionedJid: [m.sender],
       externalAdReply: {
         title: '☁️ Seleccionar boton',
-        // Usamos await (await fetch(bannerUrl)).buffer() para obtener el thumbnail
+        // Usamos await (await fetch(bannerUrl)).buffer() para obtener el thumbnail de la imagen
         thumbnail: await (await fetch(bannerUrl)).buffer(), 
         mediaType: 1,
         showAdAttribution: false
