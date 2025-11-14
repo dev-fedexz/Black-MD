@@ -23,17 +23,17 @@ let handler = async (m, { conn, usedPrefix}) => {
 `.trim()
 
   const buttons = [
-    { buttonId: '.reg nombre.17', buttonText: { displayText: '🌿 Registrarme de nuevo'}, type: 1},
+    { buttonId: '.reg nombre.17', buttonText: { displayText: '🌿 Registrarse'}, type: 1},
     { buttonId: '.ping', buttonText: { displayText: '⏳ Estado del bot'}, type: 1}
   ]
 
-  const thumbnailUrl = 'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/e02474-1762062152606.jpg'
+  const thumbnailUrl = 'https://files.catbox.moe/p0fk5h.jpg'
   const thumbnail = await (await fetch(thumbnailUrl)).buffer()
 
   const buttonMessage = {
     image: { url: thumbnailUrl},
     caption: caption,
-    footer: 'Itachi-Bot-MD | Brayan Uchiha',
+    footer: 'Shadow Bot | Dev-fedexyz',
     buttons: buttons,
     headerType: 4,
     contextInfo: {
