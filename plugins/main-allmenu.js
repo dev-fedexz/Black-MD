@@ -1,109 +1,108 @@
-import fs from 'fs'
+import fs from 'fs';
 
 let handler = async (m, { conn, usedPrefix}) => {
-  const delay = ms => new Promise(res => setTimeout(res, ms))
-  let taguser = '@' + m.sender.split('@')[0]
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  let nombre = await conn.getName(m.sender);
 
   let tags = {
-  info: '📘 𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝗰𝗶𝗼́𝗻',
-  anime: '🎎 𝗔𝗻𝗶𝗺𝗲 & 𝗪𝗮𝗶𝗳𝘂𝘀',
-  buscador: '🔍 𝗕𝘂𝘀𝗰𝗮𝗱𝗼𝗿𝗲𝘀',
-  downloader: '📥 𝗗𝗲𝘀𝗰𝗮𝗿𝗴𝗮𝘀',
-  jutsus: '🥷 𝗝𝘂𝘁𝘀𝘂𝘀 𝗡𝗮𝗿𝘂𝘁𝗼',
-  economy: '💰 𝗘𝗰𝗼𝗻𝗼𝗺𝗶́𝗮 & 𝗝𝘂𝗲𝗴𝗼𝘀',
-  fun: '🎮 𝗝𝘂𝗲𝗴𝗼𝘀 𝗗𝗶𝘃𝗲𝗿𝘁𝗶𝗱𝗼𝘀',
-  group: '👥 𝗙𝘂𝗻𝗰𝗶𝗼𝗻𝗲𝘀 𝗱𝗲 𝗚𝗿𝘂𝗽𝗼',
-  ai: '🤖 𝗜𝗻𝘁𝗲𝗹𝗶𝗴𝗲𝗻𝗰𝗶𝗮 𝗔𝗿𝘁𝗶𝗳𝗶𝗰𝗶𝗮𝗹',
-  game: '🎲 𝗝𝘂𝗲𝗴𝗼𝘀 𝗖𝗹𝗮́𝘀𝗶𝗰𝗼𝘀',
-  serbot: '🧩 𝗦𝘂𝗯-𝗕𝗼𝘁𝘀',
-  main: '📌 𝗖𝗼𝗺𝗮𝗻𝗱𝗼𝘀 𝗣𝗿𝗶𝗻𝗰𝗶𝗽𝗮𝗹𝗲𝘀',
-  nable: '⚙️ 𝗔𝗰𝘁𝗶𝘃𝗮𝗿 / 𝗗𝗲𝘀𝗮𝗰𝘁𝗶𝘃𝗮𝗿',
-  nsfw: '🔞 𝗡𝗦𝗙𝗪',
-  owner: '👑 𝗗𝘂𝗲𝗻̃𝗼 / 𝗔𝗱𝗺𝗶𝗻',
-  sticker: '🖼️ 𝗦𝘁𝗶𝗰𝗸𝗲𝗿𝘀 & 𝗟𝗼𝗴𝗼𝘀',
-  herramientas: '🛠️ 𝗛𝗲𝗿𝗿𝗮𝗺𝗶𝗲𝗻𝘁𝗮𝘀'
-  }
+  info: '📘 ɪɴғᴏʀᴍᴀᴄɪᴏ́ɴ',
+  anime: '🎎 ᴀɴɪᴍᴇ & ᴡᴀɪғᴜs',
+  buscador: '🔍 ʙᴜsᴄᴀᴅᴏʀᴇs',
+  downloader: '📥 ᴅᴇsᴄᴀʀɢᴀs',
+  jutsus: '🥷 ᴊᴜᴛsᴜs ɴᴀʀᴜᴛᴏ',
+  economy: '💰 ᴇᴄᴏɴᴏᴍɪ́ᴀ & ᴊᴜᴇɢᴏs',
+  fun: '🎮 ᴊᴜᴇɢᴏs ᴅɪᴠᴇʀᴛɪᴅᴏs',
+  group: '👥 ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ɢʀᴜᴘᴏ',
+  ai: '🤖 ɪɴᴛᴇʟɪɢᴇɴᴄɪᴀ ᴀʀᴛɪғɪᴄɪᴀʟ',
+  game: '🎲 ᴊᴜᴇɢᴏs ᴄʟᴀ́sɪᴄᴏs',
+  serbot: '🧩 sᴜʙ-ʙᴏᴛs',
+  main: '📌 ᴄᴏᴍᴀɴᴅᴏs ᴘʀɪɴᴄɪᴘᴀʟᴇs',
+  nable: '⚙️ ᴀᴄᴛɪᴠᴀʀ / ᴅᴇsᴀᴄᴛɪᴠᴀʀ',
+  nsfw: '🔞 ɴsғᴡ',
+  owner: '👑 ᴅᴜᴇɴ̃ᴏ / ᴀᴅᴍɪɴ',
+  sticker: '🖼️ sᴛɪᴄᴋᴇʀs & ʟᴏɢᴏs',
+  herramientas: '🛠️ ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs'
+  };
 
-  let header = '╭───〔 %category 〕───╮'
-  let body = '│ ✦ %cmd'
-  let footer = '╰────────────────────╯'
-  let after = ``
+  let header = '%category';
+  let body = '> ര ׄ ☃️ ׅ *_%cmd_*';
+  let footer = '';
+  let after = ``;
 
-  let user = global.db.data.users[m.sender]
-  let nombre = await conn.getName(m.sender)
-  let premium = user.premium? '✅ Sí': '❌ No'
-  let limite = user.limit || 0
-  let totalreg = Object.keys(global.db.data.users).length
-  let muptime = clockString(process.uptime())
+  let user = global.db.data.users[m.sender];
+  let premium = user.premium? 'sɪ́': 'ɴᴏ';
+  let limit = user.limit || 0;
+  let totalreg = Object.keys(global.db.data.users).length;
+  let groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length;
+  let uptime = clockString(process.uptime());
 
   function clockString(seconds) {
-    let h = Math.floor(seconds / 3600)
-    let m = Math.floor(seconds % 3600 / 60)
-    let s = Math.floor(seconds % 60)
-    return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':')
+    let h = Math.floor(seconds / 3600);
+    let m = Math.floor(seconds % 3600 / 60);
+    let s = Math.floor(seconds % 60);
+    return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
 }
 
   let infoUser = `
-🌟 ¡Hola, *${nombre}*! Bienvenid@ a *Shadow - MD* 🌟
+🌵 ʜᴏʟᴀ, ꜱᴏʏ ᴋᴜʀᴜᴍɪ - ʙᴏᴛ
+📚 ᴜꜱᴜᴀʀɪᴏ: ${nombre}
+☕ ʙᴀɪʟᴇʏꜱ: fedExz-Bails
+🍉 ᴘʀᴇᴍɪᴜᴍ: ${premium}
+⏳ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ: ${uptime}
+☁️ ɢʀᴜᴘᴏꜱ ᴀᴄᴛɪᴠᴏꜱ: ${groupsCount}
+🌿 ᴄᴏᴍᴀɴᴅᴏꜱ ᴅɪꜱᴘᴏɴɪʙʟᴇꜱ: ${Object.keys(global.plugins).length}
+📡 ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ: [${new Date().toLocaleString('es-ES')}]
+`.trim();
 
-📊 Tu estado actual:
-╭───────────────
-│ 👤 Usuario: ${nombre}
-│ 💎 Premium: ${premium}
-│ 🎯 Límite: ${limite}
-│ ⏱️ Activo: ${muptime}
-│ 🌍 Usuarios totales: ${totalreg}
-╰───────────────
-`.trim()
+  let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
+    help: Array.isArray(v.help)? v.help: [v.help],
+    tags: Array.isArray(v.tags)? v.tags: [v.tags],
+    command: Array.isArray(v.command)? v.command: [v.command]
+}));
 
-  let commands = Object.values(global.plugins).filter(v => v.help && v.tags).map(v => {
-    return {
-      help: Array.isArray(v.help)? v.help: [v.help],
-      tags: Array.isArray(v.tags)? v.tags: [v.tags]
-}
-})
-
-  let menu = []
+  let menu = [];
   for (let tag in tags) {
     let comandos = commands
 .filter(command => command.tags.includes(tag))
-.map(command => command.help.map(cmd => body.replace(/%cmd/g, usedPrefix + cmd)).join('\n'))
-.join('\n')
+.map(command => command.command.map(cmd => body.replace(/%cmd/g, usedPrefix + cmd)).join('\n'))
+.join('\n');
     if (comandos) {
-      menu.push(header.replace(/%category/g, tags[tag]) + '\n' + comandos + '\n' + footer)
+      menu.push(header.replace(/%category/g, tags[tag]) + '\n' + comandos + '\n' + footer);
 }
 }
 
-  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + after
+  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
+
+  let bannerUrl = 'https://files.catbox.moe/c65bk7.jpg';
+  let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
+
+  await m.react('🌻');
 
   await conn.sendMessage(m.chat, {
-    video: { url: 'https://raw.githubusercontent.com/El-brayan502/dat3/main/uploads/899fc7-1762129754657.mp4'},
-    gifPlayback: true,
+    video: { url: videoUrl},
     caption: finalMenu,
+    gifPlayback: true,
     contextInfo: {
       isForwarded: true,
-      forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363417186717632@newsletter',
-        newsletterName: 'Shadow`S Bot : Channel',
-        serverMessageId: -1
-},
+      forwardingScore: 999,
       externalAdReply: {
-        title: '🌴 Shadow- MD🌴',
-        body: 'Tu asistente confiable | Dev-fedexyz',
-        thumbnailUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
-        thumbnail: await (await fetch(icono)).buffer(),
-        sourceUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
+        title: '🌵 ᴋᴜʀᴜᴍɪ ʙᴏᴛ - ᴏғғɪᴄɪᴀʟ',
+        body: '© ᴍᴀᴅᴇ ʙʏ ᴅᴇᴠ-ғᴇᴅᴇxʏᴢᴢ',
+        thumbnailUrl: bannerUrl,
         mediaType: 1,
-        showAdAttribution: false
+        renderLargerThumbnail: true
 }
-}
-}, { quoted: m})
+},
+    buttons: [
+      { buttonId: `${usedPrefix}code`, buttonText: { displayText: '🪐 sᴇʀ sᴜʙ-ʙᴏᴛ'}, type: 1},
+      { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '🌾 ᴄᴏᴍᴀɴᴅᴏꜱ'}, type: 1}
+    ]
+}, { quoted: m});
+};
 
-  await delay(100)
-}
+handler.help = ['menu'];
+handler.tags = ['main'];
+handler.command = ['menu', 'help', 'menú'];
+handler.register = true;
 
-handler.help = ['menu']
-handler.tags = ['main']
-handler.command = ['menu', 'menú']
-
-export default handler
+export default handler;
