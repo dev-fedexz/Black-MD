@@ -1,10 +1,12 @@
 import fs from 'fs';
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn, usedPrefix}) => {
-  const delay = ms => new Promise(res => setTimeout(res, ms));
-  let nombre = await conn.getName(m.sender);
+  const nombre = await conn.getName(m.sender);
 
-  let tags = {
+  const globalIcono = 'https://files.catbox.moe/cbx89a.jpg'; // Se usa solo aquí
+
+  const tags = {
     info: '📘 ɪɴғᴏʀᴍᴀᴄɪᴏ́ɴ',
     anime: '🎎 ᴀɴɪᴍᴇ & ᴡᴀɪғᴜs',
     buscador: '🔍 ʙᴜsᴄᴀᴅᴏʀᴇs',
@@ -22,28 +24,28 @@ let handler = async (m, { conn, usedPrefix}) => {
     owner: '👑 ᴅᴜᴇɴ̃ᴏ / ᴀᴅᴍɪɴ',
     sticker: '🖼️ sᴛɪᴄᴋᴇʀs & ʟᴏɢᴏs',
     herramientas: '🛠️ ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs'
-};
+}
 
-  let header = '%category';
-  let body = '> ര ׄ ☃️ ׅ *_%cmd_*';
-  let footer = '';
-  let after = ``;
+  const header = '%category';
+  const body = '> ര ׄ ☃️ ׅ *_%cmd_*';
+  const footer = '';
+  const after = '';
 
-  let user = global.db.data.users[m.sender];
-  let premium = user.premium? 'sɪ́': 'ɴᴏ';
-  let limit = user.limit || 0;
-  let totalreg = Object.keys(global.db.data.users).length;
-  let groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length;
-  let uptime = clockString(process.uptime());
+  const user = global.db.data.users[m.sender];
+  const premium = user.premium? 'sɪ́': 'ɴᴏ';
+  const limit = user.limit || 0;
+  const totalreg = Object.keys(global.db.data.users).length;
+  const groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length;
+  const uptime = clockString(process.uptime());
 
   function clockString(seconds) {
-    let h = Math.floor(seconds / 3600);
-    let m = Math.floor(seconds % 3600 / 60);
-    let s = Math.floor(seconds % 60);
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor(seconds % 3600 / 60);
+    const s = Math.floor(seconds % 60);
     return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
 }
 
-  let infoUser = `
+  const infoUser = `
 🌵 ʜᴏʟᴀ, ꜱᴏʏ ᴋᴜʀᴜᴍɪ - ʙᴏᴛ
 📚 ᴜꜱᴜᴀʀɪᴏ: ${nombre}
 ☕ ʙᴀɪʟᴇʏꜱ: fedExz-Bails
@@ -54,15 +56,15 @@ let handler = async (m, { conn, usedPrefix}) => {
 📡 ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ: [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
-  let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
+  const commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
     help: Array.isArray(v.help)? v.help: [v.help],
     tags: Array.isArray(v.tags)? v.tags: [v.tags],
     command: Array.isArray(v.command)? v.command: [v.command]
 }));
 
-  let menu = [];
-  for (let tag in tags) {
-    let comandos = commands
+  const menu = [];
+  for (const tag in tags) {
+    const comandos = commands
 .filter(command => command.tags.includes(tag))
 .map(command => command.command.map(cmd => body.replace(/%cmd/g, usedPrefix + cmd)).join('\n'))
 .join('\n');
@@ -71,10 +73,8 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 }
 
-  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
-
-  let thumbnailUrl = 'https://files.catbox.moe/p0fk5h.jpg';
-  let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
+  const finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
+  const videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
 
   await m.react('🌻');
 
@@ -88,7 +88,7 @@ let handler = async (m, { conn, usedPrefix}) => {
       externalAdReply: {
         title: '🌵 ᴋᴜʀᴜᴍɪ ʙᴏᴛ - ᴏғғɪᴄɪᴀʟ',
         body: '© ᴍᴀᴅᴇ ʙʏ ᴅᴇᴠ-ғᴇᴅᴇxʏᴢᴢ',
-        thumbnailUrl: thumbnailUrl,
+        thumbnail: await (await fetch(globalIcono)).buffer(),
         mediaType: 1,
         renderLargerThumbnail: true
 }
