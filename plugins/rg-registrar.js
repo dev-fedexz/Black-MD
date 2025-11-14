@@ -1,4 +1,4 @@
-import fetch from 'node-fetch'
+/*import fetch from 'node-fetch'
 import { generateWAMessageFromContent, prepareWAMessageMedia} from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn, text, usedPrefix, command}) => {
@@ -117,4 +117,4 @@ handler.help = ['reg']
 handler.tags = ['info']
 handler.command = ['verificar', 'reg', 'registrar']
 
-export default handler
+export default handler*/
