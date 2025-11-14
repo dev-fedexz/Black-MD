@@ -22,13 +22,11 @@ let handler = async (m, { conn, text, usedPrefix, command}) => {
   age = parseInt(age)
   if (age < 5 || age> 100) return m.reply('🌾 *La edad ingresada no es válida (debe estar entre 5 y 100).*')
 
-  // Guardar datos del usuario
   user.name = name.trim()
   user.age = age
   user.registered = true
   await global.db.write()
 
-  // Preparar medios
   const fondoURL = 'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/e02474-1762062152606.jpg'
   const thumb = await (await fetch(fondoURL)).buffer()
 
@@ -42,7 +40,6 @@ let handler = async (m, { conn, text, usedPrefix, command}) => {
     { upload: conn.waUploadToServer}
 )
 
-  // Mensaje de confirmación
   const caption = `
 🎉 *¡Registro exitoso!* 🎉
 
@@ -54,14 +51,15 @@ let handler = async (m, { conn, text, usedPrefix, command}) => {
 ✨ Usa *#allmenu* para ver todos los comandos disponibles.
 `.trim()
 
-  // Crear mensaje interactivo
   const interactiveMessage = {
     header: {
       title: '',
       hasMediaAttachment: true,
       documentMessage: media.documentMessage
 },
-    body: { text: caption},
+    body: {
+      text: caption
+},
     nativeFlowMessage: {
       buttons: [
         {
@@ -72,9 +70,21 @@ let handler = async (m, { conn, text, usedPrefix, command}) => {
               {
                 title: '📂 OPCIONES DISPONIBLES',
                 rows: [
-                  { header: '🌿 Menú completo', title: 'Ver comandos', id: '.allmenu'},
-                  { header: '🗑 Eliminar registro', title: 'Cancelar registro', id: '.unreg'},
-                  { header: '⏳ Estado del bot', title: 'Ver tiempo activo', id: '.ping'}
+                  {
+                    header: '🌿 Menú completo',
+                    title: 'Ver comandos',
+                    id: '.allmenu'
+},
+                  {
+                    header: '🗑 Eliminar registro',
+                    title: 'Cancelar registro',
+                    id: '.unreg'
+},
+                  {
+                    header: '⏳ Estado del bot',
+                    title: 'Ver tiempo activo',
+                    id: '.ping'
+}
                 ]
 }
             ]
