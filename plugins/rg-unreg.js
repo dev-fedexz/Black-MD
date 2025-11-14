@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import { prepareWAMessageMedia} from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn, usedPrefix}) => {
   const user = global.db.data.users[m.sender]
@@ -27,15 +28,33 @@ let handler = async (m, { conn, usedPrefix}) => {
     { buttonId: '.ping', buttonText: { displayText: '⏳ Estado del bot'}, type: 1}
   ]
 
+  // Miniatura del documento PDF
+  const fondo = 'https://files.catbox.moe/cbx89a.jpg'
+  const thumb = await (await fetch(fondo)).buffer()
+
+  const media = await prepareWAMessageMedia(
+    {
+      document: { url: fondo},
+      mimetype: 'application/pdf',
+      fileName: 'Se eliminó tu registro',
+      jpegThumbnail: thumb
+},
+    { upload: conn.waUploadToServer}
+)
+
+  // Imagen principal del mensaje
   const thumbnailUrl = 'https://files.catbox.moe/p0fk5h.jpg'
   const thumbnail = await (await fetch(thumbnailUrl)).buffer()
 
   const buttonMessage = {
-    image: { url: thumbnailUrl},
+    document: media.documentMessage.document,
+    mimetype: media.documentMessage.mimetype,
+    fileName: media.documentMessage.fileName,
+    jpegThumbnail: media.documentMessage.jpegThumbnail,
     caption: caption,
     footer: 'Shadow Bot | Dev-fedexyz',
     buttons: buttons,
-    headerType: 4,
+    headerType: 1,
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
