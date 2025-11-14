@@ -45,7 +45,7 @@ global.nameqr = 'Shadow - Bot'
 global.namebot = 'Shadow`S - Bot'
 global.sessions = 'Shadow/Sessions'
 global.jadi = 'Shadow/Jadibos' 
-global.ItachiJadibts = true
+global.ShadowJadibts = true
 
 //✎﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏﹏
 
