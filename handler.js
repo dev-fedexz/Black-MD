@@ -618,7 +618,6 @@ global.dfail = async (type, m, conn, usedPrefix) => {
     const number = conn.user?.jid?.split('@')[0] || '0'
 
     const productMessage = {
-    const productMessage = {
       product: {
         productImage: { url: file },
         productId: '24529689176623820',
@@ -640,7 +639,7 @@ global.dfail = async (type, m, conn, usedPrefix) => {
           name: 'quick_reply',
           buttonParamsJson: JSON.stringify({
             display_text: '📩 Registrarme',
-            id: '.reg'
+            id: '.reg shadow.17'
           })
         }
       ],
