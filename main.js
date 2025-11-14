@@ -309,7 +309,7 @@ if (!fs.existsSync(`./${sessions}/creds.json`)) {
         addNumber = phoneNumber.replace(/[^0-9]/g, '')
       } else {
         do {
-          phoneNumber = await question(chalk.bgBlack(chalk.bold.greenBright(`[ ✿ ]  Por favor, Ingrese el número de WhatsApp.\n${chalk.bold.magentaBright('---> ')}`)))
+          phoneNumber = await question(chalk.bgBlack(chalk.bold.greenBright(`[ 👻 ]  Por favor, Ingrese el número de WhatsApp.\n${chalk.bold.magentaBright('---> ')}`)))
           phoneNumber = phoneNumber.replace(/\D/g, '')
           if (!phoneNumber.startsWith('+')) {
             phoneNumber = `+${phoneNumber}`
@@ -320,7 +320,7 @@ if (!fs.existsSync(`./${sessions}/creds.json`)) {
         setTimeout(async () => {
           let codeBot = await conn.requestPairingCode(addNumber)
           codeBot = codeBot?.match(/.{1,4}/g)?.join("-") || codeBot
-          console.log(chalk.bold.white(chalk.bgMagenta(`[ ✿ ]  Código:`)), chalk.bold.white(chalk.white(codeBot)))
+          console.log(chalk.bold.white(chalk.bgMagenta(`[ 👻 ]  Código:`)), chalk.bold.white(chalk.white(codeBot)))
         }, 3000)
       }
     }
@@ -328,7 +328,7 @@ if (!fs.existsSync(`./${sessions}/creds.json`)) {
 }
 conn.isInit = false
 conn.well = false
-conn.logger.info(`[ ✿ ]  H E C H O\n`)
+conn.logger.info(`[ 👻 ]  H E C H O\n`)
 if (!opts['test']) {
   if (global.db) setInterval(async () => {
     if (global.db.data) await global.db.write()
@@ -446,29 +446,29 @@ async function connectionUpdate(update) {
   if (global.db.data == null) loadDatabase()
   if (update.qr != 0 && update.qr != undefined || methodCodeQR) {
     if (opcion == '1' || methodCodeQR) {
-      console.log(chalk.green.bold(`[ ✿ ]  Escanea este código QR`))
+      console.log(chalk.green.bold(`[ 👻 ]  Escanea este código QR`))
     }
   }
   if (connection === "open") {
     const userJid = jidNormalizedUser(conn.user.id)
     const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
     await joinChannels(conn)
-    console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
+    console.log(chalk.green.bold(`[ 👻 ]  Conectado a: ${userName}`))
   }
   let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
   if (connection === 'close') {
     if (reason === DisconnectReason.badSession) {
-      console.log(chalk.bold.cyanBright(`\n⚠︎ Sin conexión, borra la session principal del Bot, y conectate nuevamente.`))
+      console.log(chalk.bold.cyanBright(`\n[ 💀 ] Sin conexión, borra la session principal del Bot, y conectate nuevamente.`))
     } else if (reason === DisconnectReason.connectionClosed) {
       console.log(chalk.bold.magentaBright(`\n♻ Reconectando la conexión del Bot...`))
       await global.reloadHandler(true).catch(console.error)
     } else if (reason === DisconnectReason.connectionLost) {
-      console.log(chalk.bold.blueBright(`\n⚠︎ Conexión perdida con el servidor, reconectando el Bot...`))
+      console.log(chalk.bold.blueBright(`\n[ 💀 ] Conexión perdida con el servidor, reconectando el Bot...`))
       await global.reloadHandler(true).catch(console.error)
     } else if (reason === DisconnectReason.connectionReplaced) {
       console.log(chalk.bold.yellowBright(`\nꕥ La conexión del Bot ha sido reemplazada.`))
     } else if (reason === DisconnectReason.loggedOut) {
-      console.log(chalk.bold.redBright(`\n⚠︎ Sin conexión, borra la session principal del Bot, y conectate nuevamente.`))
+      console.log(chalk.bold.redBright(`\n[ 💀 ] Sin conexión, borra la session principal del Bot, y conectate nuevamente.`))
       await global.reloadHandler(true).catch(console.error)
     } else if (reason === DisconnectReason.restartRequired) {
       console.log(chalk.bold.cyanBright(`\n♻ Conectando el Bot con el servidor...`))
@@ -477,7 +477,7 @@ async function connectionUpdate(update) {
       console.log(chalk.bold.yellowBright(`\n♻ Conexión agotada, reconectando el Bot...`))
       await global.reloadHandler(true).catch(console.error)
     } else {
-      console.log(chalk.bold.redBright(`\n⚠︎ Conexión cerrada, conectese nuevamente.`))
+      console.log(chalk.bold.redBright(`\n[ 💀 ] Conexión cerrada, conectese nuevamente.`))
     }
   }
 }
@@ -522,7 +522,7 @@ global.reloadHandler = async function (restatConn) {
   return true
 }
 setInterval(() => {
-  console.log('[ ✿ ]  Reiniciando...')
+  console.log('[ 👻 ]  Reiniciando...')
   process.exit(0)
 }, 259200000)
 let rtU = join(__dirname, `./${jadi}`)
@@ -646,7 +646,7 @@ function purgeSessionSB() {
       console.log(chalk.bold.cyanBright(`\n⌦ Archivos de la carpeta ${jadi} han sido eliminados correctamente.`))
     }
   } catch (err) {
-    console.log(chalk.bold.red(`\n⚠︎ Error para eliminar archivos de la carpeta ${jadi}.\n` + err))
+    console.log(chalk.bold.red(`\n[ ☃️ ] Error para eliminar archivos de la carpeta ${jadi}.\n` + err))
   }
 }
 
@@ -660,7 +660,7 @@ function purgeOldFiles() {
           const filePath = path.join(dir, file)
           unlinkSync(filePath, err => {
             if (err) {
-              console.log(chalk.bold.red(`\n⚠︎ El archivo ${file} no se logró borrar.\n` + err))
+              console.log(chalk.bold.red(`\n[ 💀 ] El archivo ${file} no se logró borrar.\n` + err))
             } else {
               console.log(chalk.bold.green(`\n⌦ El archivo ${file} se ha borrado correctamente.`))
             }
@@ -719,4 +719,4 @@ async function joinChannels(conn) {
   for (const channelId of Object.values(global.ch)) {
     await conn.newsletterFollow(channelId).catch(() => { })
   }
-}
+        }
