@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { generateWAMessageFromContent} from '@whiskeysockets/baileys'
+import { generateWAMessageFromContent, prepareWAMessageMedia} from '@whiskeysockets/baileys'
 
 let handler = async (m, { conn, usedPrefix}) => {
   const user = global.db.data.users[m.sender]
@@ -14,6 +14,20 @@ let handler = async (m, { conn, usedPrefix}) => {
   user.registered = false
   await global.db.write()
 
+  // Fondo tipo PDF
+  const fondoURL = 'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/e02474-1762062152606.jpg'
+  const thumb = await (await fetch(fondoURL)).buffer()
+
+  const media = await prepareWAMessageMedia(
+    {
+      document: { url: fondoURL},
+      mimetype: 'application/pdf',
+      fileName: 'Se eliminó tu registro',
+      jpegThumbnail: thumb
+},
+    { upload: conn.waUploadToServer}
+)
+
   const caption = `
 🗑️ *Tu registro ha sido eliminado correctamente.*
 
@@ -21,45 +35,22 @@ let handler = async (m, { conn, usedPrefix}) => {
 
 📌 Si deseas volver a registrarte, usa:
 *${usedPrefix}reg nombre.edad*
-
-━━━━━━━━━━━━━━
 `.trim()
 
-  const interactiveMessage = {
-    body: { text: caption},
-    nativeFlowMessage: {
-      buttons: [
-        {
-          name: 'single_select',
-          buttonParamsJson: JSON.stringify({
-            title: '',
-            sections: [
-              {
-                title: '📂 OPCIONES DISPONIBLES',
-                rows: [
-                  {
-                    header: '🌿 Registrarse nuevamente',
-                    title: 'Crear nuevo registro',
-                    id: '.reg TuNombre.18'
-},
-                  {
-                    header: '📋 Ver comandos',
-                    title: 'Menú completo',
-                    id: '.allmenu'
-},
-                  {
-                    header: '📊 Estado del bot',
-                    title: 'Ver tiempo activo',
-                    id: '.ping'
-}
-                ]
-}
-            ]
-})
-}
-      ],
-      messageParamsJson: ''
-},
+  const buttons = [
+    { buttonId: '.reg nombre.17', buttonText: { displayText: '🌿 Registrarme de nuevo'}, type: 1},
+    { buttonId: '.ping', buttonText: { displayText: '⏳ Estado del bot'}, type: 1}
+  ]
+
+  const buttonMessage = {
+    document: media.documentMessage.document,
+    mimetype: media.documentMessage.mimetype,
+    fileName: media.documentMessage.fileName,
+    jpegThumbnail: media.documentMessage.jpegThumbnail,
+    caption: caption,
+    footer: 'Itachi-Bot-MD | Brayan Uchiha',
+    buttons: buttons,
+    headerType: 1,
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
@@ -71,13 +62,7 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 }
 
-  const msg = generateWAMessageFromContent(
-    m.chat,
-    { viewOnceMessage: { message: { interactiveMessage}}},
-    { userJid: m.sender, quoted: m}
-)
-
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id})
+  await conn.sendMessage(m.chat, buttonMessage, { quoted: m})
 }
 
 handler.help = ['unreg']
