@@ -1,11 +1,11 @@
 import fetch from 'node-fetch'
 import { generateWAMessageFromContent} from '@whiskeysockets/baileys'
 
-let handler = async (m, { conn, usedPrefix, command}) => {
+let handler = async (m, { conn, usedPrefix}) => {
   const user = global.db.data.users[m.sender]
 
   if (!user.registered) {
-    return m.reply(`❌ *No estás registrado.*\n\nUsa: *${usedPrefix}reg nombre.edad* para registrarte.`)
+    return m.reply(`❌ *No estás registrado.*\n\nPara registrarte usa:\n*${usedPrefix}reg nombre.edad*`)
 }
 
   // Eliminar datos del usuario
@@ -21,6 +21,8 @@ let handler = async (m, { conn, usedPrefix, command}) => {
 
 📌 Si deseas volver a registrarte, usa:
 *${usedPrefix}reg nombre.edad*
+
+━━━━━━━━━━━━━━
 `.trim()
 
   const interactiveMessage = {
@@ -44,6 +46,11 @@ let handler = async (m, { conn, usedPrefix, command}) => {
                     header: '📋 Ver comandos',
                     title: 'Menú completo',
                     id: '.allmenu'
+},
+                  {
+                    header: '📊 Estado del bot',
+                    title: 'Ver tiempo activo',
+                    id: '.ping'
 }
                 ]
 }
