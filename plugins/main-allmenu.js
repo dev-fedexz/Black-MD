@@ -27,7 +27,7 @@ let handler = async (m, { conn, usedPrefix}) => {
   let header = '╭───〔 %category 〕───╮'
   let body = '│ ✦ %cmd'
   let footer = '╰────────────────────╯'
-  let after = `\n🌸 𝙄𝙩𝙖𝙘𝙝𝙞-𝘽𝙤𝙩-𝙈𝘿 | 𝘽𝙧𝙖𝙮𝙖𝙣 𝙐𝙘𝙝𝙞𝙝𝙖 🌸`
+  let after = ``
 
   let user = global.db.data.users[m.sender]
   let nombre = await conn.getName(m.sender)
@@ -44,7 +44,7 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 
   let infoUser = `
-🌟 ¡Hola, *${nombre}*! Bienvenid@ a *Itachi-Bot-MD* 🌟
+🌟 ¡Hola, *${nombre}*! Bienvenid@ a *Shadow - MD* 🌟
 
 📊 Tu estado actual:
 ╭───────────────
@@ -84,12 +84,12 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardedNewsletterMessageInfo: {
         newsletterJid: '120363417186717632@newsletter',
-        newsletterName: 'Itachi-Bot-MD | Channel',
+        newsletterName: 'Shadow`S Bot : Channel',
         serverMessageId: -1
 },
       externalAdReply: {
-        title: '🌴 Itachi-Bot-MD 🌴',
-        body: 'Tu asistente confiable | By Brayan Uchiha',
+        title: '🌴 Shadow- MD🌴',
+        body: 'Tu asistente confiable | Dev-fedexyz',
         thumbnailUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
         thumbnail: await (await fetch(icono)).buffer(),
         sourceUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQGUUr',
