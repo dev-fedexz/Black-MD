@@ -618,6 +618,7 @@ global.dfail = async (type, m, conn, usedPrefix) => {
     const number = conn.user?.jid?.split('@')[0] || '0'
 
     const productMessage = {
+    const productMessage = {
       product: {
         productImage: { url: file },
         productId: '24529689176623820',
@@ -630,7 +631,7 @@ global.dfail = async (type, m, conn, usedPrefix) => {
         productImageCount: 1
       },
       businessOwnerJid: who || '0@s.whatsapp.net',
-      caption: `𓐞⩨̸̶⵿❛ 🦋ᜒ᪶ׄ᪲ ʜᴏʟᴀ, ᴘᴀʀᴀ ᴜsᴀʀ ᴇsᴛᴇ ᴄᴏᴍᴀɴᴅᴏ ᴅᴇʙᴇs sᴇsᴛᴀʀ ʀᴇɢɪsᴛʀᴀᴅᴏ, ᴜsᴀ .ʀᴇɢ `.trim(),
+      caption: `☕ Hola primero debes registrate, Usa el comando #reg shadow.17/n/nOh toca el boton para registrarse.`.trim(),
       title: '',
       subtitle: '',
       footer: groupSubject || '',
@@ -638,13 +639,13 @@ global.dfail = async (type, m, conn, usedPrefix) => {
         {
           name: 'quick_reply',
           buttonParamsJson: JSON.stringify({
-            display_text: '👤ʀᴇɢɪsᴛʀᴀᴍᴇ',
+            display_text: '📩 Registrarme',
             id: '.reg'
           })
         }
       ],
       mentions: who ? [who] : []
-    }
+        }
 
     try {
       await conn.sendMessage(m.chat, productMessage, { quoted: fkontak || m })
