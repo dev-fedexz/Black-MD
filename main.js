@@ -61,7 +61,7 @@ const opts = global.opts
 global.prefix = new RegExp('^[#!./]')
 
 const defaultData = { users: {}, chats: {}, stats: {}, msgs: {}, sticker: {}, settings: {} }
-// Usar siempre ruta absoluta para evitar que al ejecutar desde otro cwd se cree otro database.json
+
 import { join as _join } from 'path'
 const absoluteDBPath = _join(__dirname, 'src', 'database.json')
 const registryBackupPath = _join(__dirname, 'src', 'database.registered.json')
@@ -339,6 +339,36 @@ if (!opts['test']) {
   }, 30 * 1000)
 }
 
+function clockString(ms) {
+    let d = Math.floor(ms / (1000 * 60 * 60 * 24));
+    let h = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    let m = Math.floor((ms / (1000 * 60)) % 60);
+    let s = Math.floor((ms / 1000) % 60);
+    return [
+        d,
+        h,
+        m,
+        s
+    ].map(v => v.toString().padStart(2, 0)).join(':');
+}
+
+async function setBotProfileStatus(conn) {
+    if (!conn || !conn.user || !global.timestamp.start) return;
+
+    const botName = global.botname || "Shadow-Bot";
+    const runtime = clockString(new Date() - global.timestamp.start);
+    
+    const statusText = `${botName} | Estado: Activo ✅ | Runtime: ${runtime}`;
+
+    try {
+        await conn.updateProfileStatus(statusText);
+        console.log(chalk.bold.green(`[ ✿ ] Descripción del perfil actualizada: ${statusText}`));
+    } catch (e) {
+        console.error(chalk.bold.red(`[ ⚠︎ ] Error al actualizar la descripción del perfil: ${e?.message || e}`));
+    }
+}
+
+
 async function resolveLidToRealJid(lidJid, groupJid, maxRetries = 3, retryDelay = 1000) {
   if (!lidJid?.endsWith("@lid") || !groupJid?.endsWith("@g.us")) return lidJid?.includes("@") ? lidJid : `${lidJid}@s.whatsapp.net`
   const cached = lidCache.get(lidJid)
@@ -454,6 +484,8 @@ async function connectionUpdate(update) {
     const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
     await joinChannels(conn)
     console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
+    
+    await setBotProfileStatus(conn);
   }
   let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
   if (connection === 'close') {
@@ -719,4 +751,4 @@ async function joinChannels(conn) {
   for (const channelId of Object.values(global.ch)) {
     await conn.newsletterFollow(channelId).catch(() => { })
   }
-}
+       }
