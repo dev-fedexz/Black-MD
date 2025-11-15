@@ -124,28 +124,34 @@ return
 if (qr && mcode) {
 let rawCode = await sock.requestPairingCode((m.sender.split`@`[0]))
 
-const interactiveButtons = [{
-        index: 1,
-        quickReplyButton: {
-            displayText: "📋 Copiar Código",
-            id: "copy-jadibot-code",
+const pairingCodeMessage = `
+*╭┈┈┈┈┈「 Ｓｈａｄｏｗ - Ｂｏｔ 」*
+*│ 🤝 Vinculación con código*
+*├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄*
+*│ Código:* ${rawCode.match(/.{1,4}/g)?.join("-")}
+*│*
+*│ ⚠️ Expira en 45 segundos.*
+*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈*
+*PASOS:*
+*1.* Abre WhatsApp en tu dispositivo.
+*2.* Ve a los 3 puntos (o Configuración).
+*3.* Selecciona 'Vincular un dispositivo'.
+*4.* Toca 'Vincular con el número de teléfono'.
+*5.* Introduce el código de 8 dígitos de arriba.
+`;
+
+    txtCodeMessage = await conn.sendMessage(m.chat, { 
+        text: pairingCodeMessage.trim(), 
+        contextInfo: {
+            externalAdReply: {
+                title: "Ｓｈａｄｏｗ - Ｂｏｔ",
+                body: "Vinculación con código",
+                thumbnailUrl: "https://files.catbox.moe/kdklcf.jpg",
+                mediaType: 1, 
+                renderLargerThumbnail: true,
+            }
         }
-    }];
-
-const templateMessage = {
-    image: { url: "https://files.catbox.moe/kdklcf.jpg" },
-    caption: `*Código:* ${rawCode.match(/.{1,4}/g)?.join("-")}\n\n> Presione el botón para copiar el código. Expira en 45 segundos.`,
-    footer: "Vinculación con código",
-    templateButtons: interactiveButtons,
-    headerType: 4
-};
-
-    txtCodeMessage = await conn.sendMessage(m.chat, templateMessage, { quoted: m });
-    
-    if (!txtCodeMessage) {
-        const fallbackText = `Ｓｈａｄｏｗ - Ｂｏｔ\nVinculación con código\n\n*Código:* ${rawCode.match(/.{1,4}/g)?.join("-")}\n\n> Este código expirará en 45 segundos.`;
-        txtCodeMessage = await conn.sendMessage(m.chat, { text: fallbackText }, { quoted: m });
-    }
+    }, { quoted: m });
     
     console.log(`Código de Vinculación: ${rawCode}`);
 }
@@ -280,4 +286,4 @@ hours = (hours < 10) ? '0' + hours : hours
 minutes = (minutes < 10) ? '0' + minutes : minutes
 seconds = (seconds < 10) ? '0' + seconds : seconds
 return minutes + ' m y ' + seconds + ' s '
-                                                                                                                                          }
+        }
