@@ -44,14 +44,14 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 
   let infoUser = `
-🌵 Hola, Soy *Shadow - Bot*
-
-📚 Usuario: ${nombre}
-🍉 Premium: ${premium}
-⏳ Tiempoactivo: ${uptime}
-☁️ Grupos activos: ${groupsCount}
-🌿 Comandos disponibles: ${Object.keys(global.plugins).length}
-📡 Fecha actual: [${new Date().toLocaleString('es-ES')}]
+🌵 ʜᴏʟᴀ, ꜱᴏʏ *Shadow - Bot*
+📚 ᴜꜱᴜᴀʀɪᴏ: ${nombre}
+☕ ʙᴀɪʟᴇʏꜱ: fedExz-Bails
+🍉 ᴘʀᴇᴍɪᴜᴍ: ${premium}
+⏳ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ: ${uptime}
+☁️ ɢʀᴜᴘᴏꜱ ᴀᴄᴛɪᴠᴏꜱ: ${groupsCount}
+🌿 ᴄᴏᴍᴀɴᴅᴏꜱ ᴅɪꜱᴘᴏɴɪʙʟᴇꜱ: ${Object.keys(global.plugins).length}
+📡 ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ: [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
   let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
@@ -74,6 +74,7 @@ let handler = async (m, { conn, usedPrefix}) => {
   let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
 
   let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
+  let thumbnailUrl = 'https://files.catbox.moe/cbx89a.jpg';
 
   await m.react('🌻');
 
@@ -85,8 +86,10 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardingScore: 999,
       externalAdReply: {
+        title: 'Shadow Bot\nUltima version 🌾',
+        thumbnailUrl: thumbnailUrl,
         mediaType: 1,
-        renderLargerThumbnail: false
+        renderLargerThumbnail: true
 }
 },
     buttons: [
