@@ -50,9 +50,9 @@ ShadowJBOptions.fromCommand = true
 ShadowJadiBot(ShadowJBOptions)
 global.db.data.users[m.sender].Subs = new Date * 1
 } 
-handler.help = ['code', 'subbot']
+handler.help = ['code', 'codebot']
 handler.tags = ['serbot']
-handler.command = ['code', 'subbot']
+handler.command = ['code', 'codebot']
 export default handler 
 
 export async function ShadowJadiBot(options) {
