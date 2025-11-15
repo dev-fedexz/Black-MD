@@ -86,7 +86,8 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardingScore: 999,
       externalAdReply: {
-        title: 'Shadow Bot\nUltima version 🌾',
+        title: 'Shadow Bot',
+        body: 'Ultima version 🌾',
         thumbnailUrl: thumbnailUrl,
         mediaType: 1,
         renderLargerThumbnail: true
