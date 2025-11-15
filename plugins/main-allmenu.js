@@ -70,9 +70,8 @@ let handler = async (m, { conn, usedPrefix}) => {
       menu.push(header.replace(/%category/g, tags[tag]) + '\n' + comandos + '\n' + footer);
 }
 }
-  
-  // Texto de "My love fede 👻" añadido al final del menú de categorías
-  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n\n👻 *My love fede 👻*' + after;
+
+  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
 
   let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
 
@@ -93,11 +92,18 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 },
     buttons: [
-      // Botón 1: .code (Ser Sub-Bot)
       { buttonId: `${usedPrefix}code`, buttonText: { displayText: '🪐 sᴇʀ sᴜʙ-ʙᴏᴛ'}, type: 1},
-      // Botón 2: .ping (Velocidad)
-      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '⚡ ᴠᴇʟᴏᴄɪᴅᴀᴅ ᴅᴇʟ ʙᴏᴛ'}, type: 1}
-      // Se eliminó el botón de copiar para evitar la estructura de botón interactivo
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '⚡ ᴠᴇʟᴏᴄɪᴅᴀᴅ ᴅᴇʟ ʙᴏᴛ'}, type: 1},
+      { 
+        buttonId: 'copy_fede', 
+        buttonText: { displayText: 'ᴄᴏᴘɪᴀʀ'}, 
+        type: 1, 
+        quickReplyButton: { 
+          displayText: 'ᴄᴏᴘɪᴀʀ', 
+          id: 'copy_fede', 
+          copy: 'My love fede 👻'
+        } 
+      }
     ]
 }, { quoted: m});
 };
