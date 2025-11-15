@@ -119,12 +119,6 @@ if (qr) {
         text: pairingCodeMessage.trim()
     }, { quoted: m });
     
-    await delay(1000); 
-
-    await conn.sendMessage(m.chat, { 
-        text: pairingCodeMessage.trim()
-    }, { quoted: m });
-    
     console.log(`Código de Vinculación: ${rawCode}`);
 
     setTimeout(async () => {
