@@ -4,8 +4,6 @@ import fetch from 'node-fetch';
 let handler = async (m, { conn, usedPrefix}) => {
   const nombre = await conn.getName(m.sender);
 
-  const globalIcono = 'https://files.catbox.moe/cbx89a.jpg'; // Se usa solo aquí
-
   const tags = {
     info: '📘 ɪɴғᴏʀᴍᴀᴄɪᴏ́ɴ',
     anime: '🎎 ᴀɴɪᴍᴇ & ᴡᴀɪғᴜs',
@@ -24,7 +22,7 @@ let handler = async (m, { conn, usedPrefix}) => {
     owner: '👑 ᴅᴜᴇɴ̃ᴏ / ᴀᴅᴍɪɴ',
     sticker: '🖼️ sᴛɪᴄᴋᴇʀs & ʟᴏɢᴏs',
     herramientas: '🛠️ ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs'
-}
+};
 
   const header = '%category';
   const body = '> ര ׄ ☃️ ׅ *_%cmd_*';
@@ -86,11 +84,13 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardingScore: 999,
       externalAdReply: {
-        title: '🌵 ᴋᴜʀᴜᴍɪ ʙᴏᴛ - ᴏғғɪᴄɪᴀʟ',
-        body: '© ᴍᴀᴅᴇ ʙʏ ᴅᴇᴠ-ғᴇᴅᴇxʏᴢᴢ',
-        thumbnail: await (await fetch(globalIcono)).buffer(),
+        title: '🌴 Ｓｈａｄｏｗ'Ｓ - Ｂｏｔ 🌴',
+        body: '🄲 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻',
+        thumbnailUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84L5BFQGUUr',
+        thumbnail: await (await fetch('https://files.catbox.moe/kdklcf.jpg')).buffer(),
+        sourceUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQrUUr',
         mediaType: 1,
-        renderLargerThumbnail: true
+        showAdAttribution: false
 }
 },
     buttons: [
