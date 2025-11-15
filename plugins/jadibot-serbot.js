@@ -131,7 +131,7 @@ if (qr) {
         if (sock.ws.readyState === CONNECTING) { 
             console.log(chalk.bold.yellow(`[ ⏳ REINTENTO ] Reenviando código a +${path.basename(pathShadowJadiBot)} por inactividad.`));
             await conn.sendMessage(m.chat, { 
-                text: `*[ 🚨 CÓDIGO EXPIRADO/OLVIDADO ]*\n\n> *Tu código de vinculación expiró o no se usó. Usa este nuevo código para ser Sub-Bot:*\n${pairingCodeMessage}`.trim()
+                text: `*[ ⏳ CÓDIGO EXPIRADO ]*\n\n> *Tu código de vinculación expiró o no se usó. Usa este nuevo código para ser Sub-Bot:*\n${pairingCodeMessage}`.trim()
             }, { quoted: m });
         }
     }, REATTEMPT_DELAY_MS);
@@ -177,7 +177,7 @@ console.error(chalk.bold.yellow(`Error 440 no se pudo enviar mensaje a: +${path.
 if (reason == 405 || reason == 401) {
 console.log(chalk.bold.magentaBright(`\n╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡\n┆ La sesión (+${path.basename(pathShadowJadiBot)}) fue cerrada. Credenciales no válidas o dispositivo desconectado manualmente.\n╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡`))
 try {
-if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ ❌ SESIÓN CERRADA ]*\n\n> *La sesión ha caducado o fue cerrada manualmente. Por favor, intente vincular el Sub-Bot nuevamente con el comando.*' }, { quoted: m || null }) : ""
+if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ 🌾 SESIÓN CERRADA ]*\n\n> *La sesión ha caducado o fue cerrada manualmente. Por favor, intente vincular el Sub-Bot nuevamente con el comando. *' }, { quoted: m || null }) : ""
 } catch (error) {
 console.error(chalk.bold.yellow(`Error 405 no se pudo enviar mensaje a: +${path.basename(pathShadowJadiBot)}`))
 }
