@@ -86,7 +86,7 @@ let handler = async (m, { conn, usedPrefix}) => {
       forwardingScore: 999,
       externalAdReply: {
         mediaType: 1,
-        renderLargerThumbnail: true
+        renderLargerThumbnail: false
 }
 },
     buttons: [
