@@ -61,7 +61,7 @@ const opts = global.opts
 global.prefix = new RegExp('^[#!./]')
 
 const defaultData = { users: {}, chats: {}, stats: {}, msgs: {}, sticker: {}, settings: {} }
-
+// Usar siempre ruta absoluta para evitar que al ejecutar desde otro cwd se cree otro database.json
 import { join as _join } from 'path'
 const absoluteDBPath = _join(__dirname, 'src', 'database.json')
 const registryBackupPath = _join(__dirname, 'src', 'database.registered.json')
@@ -602,9 +602,8 @@ async function _quickTest() {
   const s = global.support = { ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find }
   Object.freeze(global.support)
 }
-function clearjadibot() {
-  const tmpDir = join(__dirname, 'jadibot')
-  if (!existsSync(tmpDir)) return
+function clearTmp() {
+  const tmpDir = join(__dirname, 'tmp')
   const filenames = readdirSync(tmpDir)
   filenames.forEach(file => {
     const filePath = join(tmpDir, file)
@@ -683,8 +682,8 @@ function redefineConsoleMethod(methodName, filterStrings) {
 }
 setInterval(async () => {
   if (global.stopped === 'close' || !conn || !conn.user) return
-  await clearjadibot()
-  console.log(chalk.bold.cyanBright(`\n⌦ Archivos de la carpeta JADIBOT no necesarios han sido eliminados del servidor.`))
+  await clearTmp()
+  console.log(chalk.bold.cyanBright(`\n⌦ Archivos de la carpeta TMP no necesarios han sido eliminados del servidor.`))
 }, 1000 * 60 * 4)
 setInterval(async () => {
   if (global.stopped === 'close' || !conn || !conn.user) return
