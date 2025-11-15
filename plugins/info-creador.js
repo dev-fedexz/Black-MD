@@ -5,7 +5,7 @@ FN:𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻
 ORG:𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻
 TITLE:Epictetus, Enchiridion — Chapter 1 (verse 1)
 EMAIL;type=INTERNET:brayanfree881@gmail.com
-TEL;type=CELL;waid=50231458537:+50231458537
+TEL;type=CELL;waid=5491124918653:+5491124918653
 ADR;type=WORK:;;2-chōme-7-5 Fuchūchō;Izumi;Osaka;594-0071;Japan
 URL;type=WORK:https://www.instagram.com/naruyaizumi
 X-WA-BIZ-NAME:Ｓｈａｄｏｗ - Ｂｏｔ
@@ -21,7 +21,7 @@ END:VCARD`;
         },
         message: {
             contactMessage: {
-                displayName: "Brayan Uchiha",
+                displayName: "🄲 𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻",
                 vcard,
             },
         },
@@ -31,7 +31,7 @@ END:VCARD`;
         m.chat,
         {
             contacts: {
-                displayName: "Brayan Uchiha",
+                displayName: "🄲 𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻",
                 contacts: [{ vcard }],
             },
             contextInfo: {
