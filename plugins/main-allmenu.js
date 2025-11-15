@@ -92,16 +92,19 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 },
     buttons: [
+      // Botón 1: .code
       { buttonId: `${usedPrefix}code`, buttonText: { displayText: '🪐 sᴇʀ sᴜʙ-ʙᴏᴛ'}, type: 1},
+      // Botón 2: .ping
       { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '⚡ ᴠᴇʟᴏᴄɪᴅᴀᴅ ᴅᴇʟ ʙᴏᴛ'}, type: 1},
+      // Botón de Copiar Nombre (Es el único método para la acción de copiar)
       { 
-        buttonId: 'copy_fede', 
-        buttonText: { displayText: 'ᴄᴏᴘɪᴀʀ'}, 
+        buttonId: 'copy_my_love_fede', 
+        buttonText: { displayText: '💌 ᴄᴏᴘɪᴀʀ ɴᴏᴍʙʀᴇ'}, 
         type: 1, 
         quickReplyButton: { 
-          displayText: 'ᴄᴏᴘɪᴀʀ', 
-          id: 'copy_fede', 
-          copy: 'My love fede 👻'
+          displayText: '💌 ᴄᴏᴘɪᴀʀ ɴᴏᴍʙʀᴇ', 
+          id: 'copy_my_love_fede', 
+          copy: 'My love fede 👻' 
         } 
       }
     ]
