@@ -38,7 +38,7 @@ END:VCARD`;
                 externalAdReply: {
                     title: "© 2024–2025 Shadow Project",
                     body: "Contacta al Propietario vía WhatsApp",
-                    thumbnailUrl: ".setbanner https://files.catbox.moe/1lkvoh.png",
+                    thumbnailUrl: "https://files.catbox.moe/1lkvoh.png",
                     mediaType: 1,
                     renderLargerThumbnail: true,
                 },
