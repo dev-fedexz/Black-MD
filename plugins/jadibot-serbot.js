@@ -123,35 +123,51 @@ return
 } 
 if (qr && mcode) {
 let rawCode = await sock.requestPairingCode((m.sender.split`@`[0]))
+let formattedCode = rawCode.match(/.{1,4}/g)?.join("-")
 
 const pairingCodeMessage = `
-*╭┈┈┈┈┈「 Ｓｈａｄｏｗ - Ｂｏｔ 」*
-*│ 🤝 Vinculación con código*
-*├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄*
-*│ Código:* ${rawCode.match(/.{1,4}/g)?.join("-")}
-*│*
-*│ ⚠️ Expira en 45 segundos.*
-*╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈*
-*PASOS:*
-*1.* Abre WhatsApp en tu dispositivo.
-*2.* Ve a los 3 puntos (o Configuración).
-*3.* Selecciona 'Vincular un dispositivo'.
-*4.* Toca 'Vincular con el número de teléfono'.
-*5.* Introduce el código de 8 dígitos de arriba.
+*╭━━━「 𝗦𝗛𝗔𝗗𝗢𝗪 - 𝗕𝗢𝗧 𝗖𝗢𝗗𝗘 」━━━╮*
+*│ 🤝 Vinculación con Código*
+*├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄*
+*│ 🔑 CÓDIGO:* \`\`\`${formattedCode}\`\`\`
+*│ ⏳ EXPIRA: 45 segundos*
+*╰━━━━━━━━━━━━━━━━━━━━━━━╯*
+
+*Tutorial de Vinculación*
+1. Abre WhatsApp en tu *teléfono principal.*
+2. Toca *⋮* (Android) o *Configuración* (iOS).
+3. Selecciona *Dispositivos Vinculados.*
+4. Toca *Vincular un dispositivo.*
+5. Selecciona *Vincular con el número de teléfono.*
+6. Ingresa el código \`\`\`${formattedCode}\`\`\` de arriba.
+
+*Haga clic en el botón de abajo para copiar el código.*
 `;
 
-    txtCodeMessage = await conn.sendMessage(m.chat, { 
-        text: pairingCodeMessage.trim(), 
-        contextInfo: {
-            externalAdReply: {
-                title: "Ｓｈａｄｏｗ - Ｂｏｔ",
-                body: "Vinculación con código",
-                thumbnailUrl: "https://files.catbox.moe/kdklcf.jpg",
-                mediaType: 1, 
-                renderLargerThumbnail: true,
-            }
+const buttons = [
+    {
+        quickReplyButton: {
+            displayText: "📋 Copiar Código",
+            id: formattedCode,
         }
-    }, { quoted: m });
+    }
+];
+
+const templateMessage = {
+    image: { url: "https://files.catbox.moe/kdklcf.jpg" },
+    caption: pairingCodeMessage.trim(),
+    footer: "Vinculación con código",
+    templateButtons: buttons,
+    headerType: 4
+};
+
+    txtCodeMessage = await conn.sendMessage(m.chat, templateMessage, { quoted: m });
+    
+    if (!txtCodeMessage) {
+        // Fallback en caso de que los botones no funcionen, enviando solo la imagen y el texto simple
+        const fallbackText = `Ｓｈａｄｏｗ - Ｂｏｔ\nVinculación con código\n\n*Código:* ${formattedCode}\n\n> Este código expirará en 45 segundos.`;
+        txtCodeMessage = await conn.sendMessage(m.chat, { text: fallbackText, contextInfo: { externalAdReply: { title: "Ｓｈａｄｏｗ - Ｂｏｔ", body: "Vinculación con código", thumbnailUrl: "https://files.catbox.moe/kdklcf.jpg", mediaType: 1, renderLargerThumbnail: true } } }, { quoted: m });
+    }
     
     console.log(`Código de Vinculación: ${rawCode}`);
 }
@@ -286,4 +302,4 @@ hours = (hours < 10) ? '0' + hours : hours
 minutes = (minutes < 10) ? '0' + minutes : minutes
 seconds = (seconds < 10) ? '0' + seconds : seconds
 return minutes + ' m y ' + seconds + ' s '
-        }
+}
