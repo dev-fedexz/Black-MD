@@ -1,22 +1,28 @@
 import fetch from 'node-fetch'
+import { format} from 'util'
 
-let handler = async (m, { conn, args }) => {
-let mentionedJid = await m.mentionedJid
-let userId = mentionedJid && mentionedJid[0] ? mentionedJid[0] : m.sender
-let totalreg = Object.keys(global.db.data.users).length
-let totalCommands = Object.values(global.plugins).filter((v) => v.help && v.tags).length
-    
-let txt = `
+let handler = async (m, { conn, args}) => {
+  let mentionedJid = m.mentionedJid && m.mentionedJid[0]? m.mentionedJid[0]: m.sender
+  let user = global.db.data.users[mentionedJid] || {}
+  let nombre = conn.getName(mentionedJid)
+  let premium = user.premium? '✅ Sí': '❌ No'
+  let uptime = format(process.uptime() * 1000).split('.')[0]
+  let groupsCount = Object.values(conn.chats).filter(v => v.isGroup).length
+  let totalreg = Object.keys(global.db.data.users).length
+  let totalCommands = Object.values(global.plugins).filter(v => v.help && v.tags).length
+
+  let txt = `
 > ❐ \`Hola,\` Soy *_Shadow - Bot_* 🌱
 
 ╰┈□ \`\`\`IᑎᖴO-ᑌՏᗴᖇ\`\`\`
 ❐ _Usuario:_ ${nombre}
-❐ _Premium:_ ${premium}.
+❐ _Premium:_ ${premium}
+❐ _Registrados totales:_ ${totalreg}
 
 ╰┈□ \`\`\`IᑎᖴO-ᗷOT\`\`\`
 ❐ _Tiempo activo:_ ${uptime}
 ❐ _Grupos activos:_ ${groupsCount}
-❐ _Comandos disponibles:_ ${Object.keys(global.plugins).length}
+❐ _Comandos disponibles:_ ${totalCommands}
 ❐ _Fecha actual:_ [${new Date().toLocaleString('es-ES')}]
 
 
