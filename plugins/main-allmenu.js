@@ -44,15 +44,13 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 
   let infoUser = `
-> ☆ Hola, soy *Shadow - Bot* 🌱
+> ❐ \`Hola,\` soy *Shadow - Bot* 🌱
 
-╰┈➤ \`\`\`IᑎᖴO-ᑌՏᗴᖇ\`\`\`
-
+╰┈□ \`\`\`IᑎᖴO-ᑌՏᗴᖇ\`\`\`
 ❐ Usuario: ${nombre}
 ❐ Premium: ${premium}.
 
-╰┈➤ \`\`\`IᑎᖴO-ᗷOT\`\`\`
-
+╰┈□ \`\`\`IᑎᖴO-ᗷOT\`\`\`
 ❐ Tiempo activo: ${uptime}
 ❐ Grupos activos: ${groupsCount}
 ❐ Comandos disponibles: ${Object.keys(global.plugins).length}
