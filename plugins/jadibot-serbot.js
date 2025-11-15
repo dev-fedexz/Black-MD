@@ -177,7 +177,7 @@ console.error(chalk.bold.yellow(`Error 440 no se pudo enviar mensaje a: +${path.
 if (reason == 405 || reason == 401) {
 console.log(chalk.bold.magentaBright(`\n╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡\n┆ La sesión (+${path.basename(pathShadowJadiBot)}) fue cerrada. Credenciales no válidas o dispositivo desconectado manualmente.\n╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡`))
 try {
-if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ 🌾 SESIÓN CERRADA ]*\n\n> *La sesión ha caducado o fue cerrada manualmente. Por favor, intente vincular el Sub-Bot nuevamente con el comando. *' }, { quoted: m || null }) : ""
+if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ 🌾 SESIÓN CERRADA ]*\n\n> *La sesión ha caducado o fue cerrada manualmente. Por favor, intente vincular el Sub-Bot nuevamente con el comando.* \`\`\`#code\`\`\`' }, { quoted: m || null }) : ""
 } catch (error) {
 console.error(chalk.bold.yellow(`Error 405 no se pudo enviar mensaje a: +${path.basename(pathShadowJadiBot)}`))
 }
@@ -195,7 +195,7 @@ await creloadHandler(true).catch(console.error)
 if (reason === 403) {
 console.log(chalk.bold.magentaBright(`\n╭┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡\n┆ Sesión cerrada o cuenta en soporte para la sesión (+${path.basename(pathShadowJadiBot)}).\n╰┄┄┄┄┄┄┄┄┄┄┄┄┄┄ • • • ┄┄┄┄┄┄┄┄┄┄┄┄┄┄⟡`))
 try {
-if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ 🚨 CUENTA EN SOPORTE ]*\n\n> *La sesión ha sido marcada por soporte de WhatsApp. La sesión Sub-Bot será cerrada automáticamente.*' }, { quoted: m || null }) : ""
+if (options.fromCommand) m?.chat ? await conn.sendMessage(userJid, {text : '*[ 🌿 CUENTA EN SOPORTE ]*\n\n> *La sesión ha sido marcada por soporte de WhatsApp. La sesión Sub-Bot será cerrada automáticamente.*' }, { quoted: m || null }) : ""
 } catch (error) {
 console.error(chalk.bold.yellow(`Error 403 no se pudo enviar mensaje a: +${path.basename(pathShadowJadiBot)}`))
 }
