@@ -5,27 +5,27 @@ let handler = async (m, { conn, usedPrefix}) => {
   let nombre = await conn.getName(m.sender);
 
   let tags = {
-    info: 'ɪɴғᴏʀᴍᴀᴄɪᴏ́ɴ',
-    anime: 'ᴀɴɪᴍᴇ & ᴡᴀɪғᴜs',
-    buscador: 'ʙᴜsᴄᴀᴅᴏʀᴇs',
-    downloader: 'ᴅᴇsᴄᴀʀɢᴀs',
-    jutsus: 'ᴊᴜᴛsᴜs ɴᴀʀᴜᴛᴏ',
-    economy: 'ᴇᴄᴏɴᴏᴍɪ́ᴀ & ᴊᴜᴇɢᴏs',
-    fun: 'ᴊᴜᴇɢᴏs ᴅɪᴠᴇʀᴛɪᴅᴏs',
-    group: 'ғᴜɴᴄɪᴏɴᴇs ᴅᴇ ɢʀᴜᴘᴏ',
-    ai: 'ɪɴᴛᴇʟɪɢᴇɴᴄɪᴀ ᴀʀᴛɪғɪᴄɪᴀʟ',
-    game: 'ᴊᴜᴇɢᴏs ᴄʟᴀ́sɪᴄᴏs',
-    serbot: 'sᴜʙ-ʙᴏᴛs',
-    main: 'ᴄᴏᴍᴀɴᴅᴏs ᴘʀɪɴᴄɪᴘᴀʟᴇs',
-    nable: 'ᴀᴄᴛɪᴠᴀʀ / ᴅᴇsᴀᴄᴛɪᴠᴀʀ',
-    nsfw: 'ɴsғᴡ',
-    owner: 'ᴅᴜᴇɴ̃ᴏ / ᴀᴅᴍɪɴ',
-    sticker: 'sᴛɪᴄᴋᴇʀs & ʟᴏɢᴏs',
-    herramientas: 'ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs'
+  info: 'Información',
+  anime: 'Anime & Waifus',
+  buscador: 'Buscadores',
+  downloader: 'Descargas',
+  jutsus: 'Jutsus Naruto',
+  economy: 'Economía & Juegos',
+  fun: 'Juegos Divertidos',
+  group: 'Funciones de Grupo',
+  ai: 'Inteligencia Artificial',
+  game: 'Juegos Clásicos',
+  serbot: 'Sub-Bots',
+  main: 'Comandos Principales',
+  nable: 'Activar / Desactivar',
+  nsfw: 'NSFW',
+  owner: 'Dueño / Admin',
+  sticker: 'Stickers & Logos',
+  herramientas: 'Herramientas'
 };
 
   let header = '> ꒷︶꒥꒷‧₊☆ %category ☆₊˚꒷︶꒷꒥꒷';
-  let body = '> ര ׄ ☃️ ׅ *_%cmd_*';
+  let body = '> ➩ *_%cmd_*';
   let footer = '';
   let after = ``;
 
@@ -46,12 +46,12 @@ let handler = async (m, { conn, usedPrefix}) => {
   let infoUser = `
 > ☆ Hola, soy *Shadow - Bot* 🌱
 
-❐ \`\`\`ᴜꜱᴜᴀʀɪᴏ:\`\`\` ${nombre}
-❐ \`\`\`ᴘʀᴇᴍɪᴜᴍ:\`\`\` ${premium}
-❐ \`\`\`ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ:\`\`\` ${uptime}
-❐ \`\`\`ɢʀᴜᴘᴏꜱ ᴀᴄᴛɪᴠᴏꜱ:\`\`\` ${groupsCount}
-❐ \`\`\`ᴄᴏᴍᴀɴᴅᴏꜱ ᴅɪꜱᴘᴏɴɪʙʟᴇꜱ:\`\`\` ${Object.keys(global.plugins).length}
-❐ \`\`\`ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ:\`\`\` [${new Date().toLocaleString('es-ES')}]
+❐ Usuario: ${nombre}
+❐ Premium: ${premium}
+❐ Tiempo activo: ${uptime}
+❐ Grupos activos: ${groupsCount}
+❐ Comandos disponibles: ${Object.keys(global.plugins).length}
+❐ Fecha actual" [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
   let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
