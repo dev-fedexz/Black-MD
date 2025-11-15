@@ -5,26 +5,25 @@ let handler = async (m, { conn, usedPrefix}) => {
   let nombre = await conn.getName(m.sender);
 
   let tags = {
-  info: 'Información',
-  anime: 'Anime & Waifus',
-  buscador: 'Buscadores',
-  downloader: 'Descargas',
-  jutsus: 'Jutsus Naruto',
-  economy: 'Economía & Juegos',
-  fun: 'Juegos Divertidos',
-  group: 'Funciones de Grupo',
-  ai: 'Inteligencia Artificial',
-  game: 'Juegos Clásicos',
-  serbot: 'Sub-Bots',
-  main: 'Comandos Principales',
-  nable: 'Activar / Desactivar',
-  nsfw: 'NSFW',
-  owner: 'Dueño / Admin',
-  sticker: 'Stickers & Logos',
-  herramientas: 'Herramientas'
+  info: '𝙸𝚗𝚏𝚘𝚛𝚖𝚊𝚌𝚒ó𝚗',
+  anime: '𝙰𝚗𝚒𝚖𝚎 & 𝚆𝚊𝚒𝚏𝚞𝚜',
+  buscador: '𝙱𝚞𝚜𝚌𝚊𝚍𝚘𝚛𝚎𝚜',
+  downloader: '𝙳𝚎𝚜𝚌𝚊𝚛𝚐𝚊𝚜',
+  economy: '𝙴𝚌𝚘𝚗𝚘𝚖í𝚊 & 𝙹𝚞𝚎𝚐𝚘𝚜',
+  fun: '𝙹𝚞𝚎𝚐𝚘𝚜 𝙳𝚒𝚟𝚎𝚛𝚝𝚒𝚍𝚘𝚜',
+  group: '𝙵𝚞𝚗𝚌𝚒𝚘𝚗𝚎𝚜 𝚍𝚎 𝙶𝚛𝚞𝚙𝚘',
+  ai: '𝙸𝚗𝚝𝚎𝚕𝚒𝚐𝚎𝚗𝚌𝚒𝚊 𝙰𝚛𝚝𝚒𝚏𝚒𝚌𝚒𝚊𝚕',
+  game: '𝙹𝚞𝚎𝚐𝚘𝚜 𝙲𝚕á𝚜𝚒𝚌𝚘𝚜',
+  serbot: '𝚂𝚞𝚋-𝙱𝚘𝚝𝚜',
+  main: '𝙲𝚘𝚖𝚊𝚗𝚍𝚘𝚜 𝙿𝚛𝚒𝚗𝚌𝚒𝚙𝚊𝚕𝚎𝚜',
+  nable: '𝙰𝚌𝚝𝚒𝚟𝚊𝚛 / 𝙳𝚎𝚜𝚊𝚌𝚝𝚒𝚟𝚊𝚛',
+  nsfw: '𝙽𝚂𝙵𝚆',
+  owner: '𝙳𝚞𝚎ñ𝚘 / 𝙰𝚍𝚖𝚒𝚗',
+  sticker: '𝚂𝚝𝚒𝚌𝚔𝚎𝚛𝚜 & 𝙻𝚘𝚐𝚘𝚜',
+  herramientas: '𝙷𝚎𝚛𝚛𝚊𝚖𝚒𝚎𝚗𝚝𝚊𝚜'
 };
-
-  let header = '> ꒷︶꒥꒷‧₊☆ %category ☆₊˚꒷︶꒷꒥꒷';
+  
+  let header = '> ꒷︶꒥꒷‧₊ %category ₊˚꒷︶꒷꒥꒷';
   let body = '> ➩ *_%cmd_*';
   let footer = '';
   let after = ``;
@@ -89,8 +88,7 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardingScore: 999,
       externalAdReply: {
-        title: 'Shadow Bot',
-        body: 'Ultima version 🌾',
+        title: '𝑆ℎ𝑎𝑑𝑜𝑤 - 𝐵𝑜𝑡 | 𝑈𝑙𝑡𝑖𝑚𝑎 𝑣𝑒𝑟𝑠𝑖ó𝑛',
         thumbnailUrl: thumbnailUrl,
         mediaType: 1,
         renderLargerThumbnail: true
