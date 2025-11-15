@@ -1,89 +1,98 @@
 import fetch from 'node-fetch'
-import { generateWAMessageFromContent, prepareWAMessageMedia } from '@whiskeysockets/baileys'
+import { generateWAMessageFromContent, prepareWAMessageMedia} from '@whiskeysockets/baileys'
 
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  let user = global.db.data.users[m.sender]
-  let name2 = await conn.getName(m.sender)
-  let Reg = /^([^\n]+)\.([0-9]+)$/
+let handler = async (m, { conn, text, usedPrefix, command}) => {
+  const user = global.db.data.users[m.sender]
+  const nameFromWA = await conn.getName(m.sender)
+  const regex = /^([^\n]+)\.([0-9]+)$/
 
-  if (user.registered === true) {
-    return m.reply(`🌿 Ya te encuentras registrado.\n\n¿Quieres volver a registrarte?\nUsa: *${usedPrefix}unreg*`)
-  }
+  if (user.registered) {
+    return m.reply(`🌿 *Ya estás registrado.*\n\n¿Deseas volver a registrarte?\nUsa: *${usedPrefix}unreg*`)
+}
 
-  if (!Reg.test(text)) {
-    return m.reply(`❎ Formato incorrecto\nUso:\n*${usedPrefix + command} nombre.edad*\nEjemplo:\n*${usedPrefix + command} ${name2}.19*`)
-  }
+  if (!regex.test(text)) {
+    return m.reply(`❎ *Formato incorrecto.*\n\n📌 Uso correcto:\n*${usedPrefix + command} nombre.edad*\n🧪 Ejemplo:\n*${usedPrefix + command} ${nameFromWA}.19*`)
+}
 
-  let [_, name, age] = text.match(Reg)
-  if (!name) return m.reply('👻 El nombre no puede estar vacío.')
-  if (!age) return m.reply('❄️ La edad no puede estar vacía.')
-  if (name.length >= 30) return m.reply('💛 El nombre es demasiado largo.')
+  let [_, name, age] = text.match(regex)
+  if (!name) return m.reply('👻 *El nombre no puede estar vacío.*')
+  if (!age) return m.reply('❄️ *La edad no puede estar vacía.*')
+  if (name.length>= 30) return m.reply('💛 *El nombre es demasiado largo (máx. 30 caracteres).*')
+
   age = parseInt(age)
-  if (age > 100 || age < 5) return m.reply(🌾 La edad ingresada no es válida.')
+  if (age < 5 || age> 100) return m.reply('🌾 *La edad ingresada no es válida (debe estar entre 5 y 100).*')
 
-  // Guardar registro del usuario
   user.name = name.trim()
   user.age = age
   user.registered = true
-  await global.db.write() // ✅ Guardar la DB inmediatamente
+  await global.db.write()
 
-  // Fondo Itachi
-  const fondo = 'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/e02474-1762062152606.jpg'
-  const thumb = await (await fetch(fondo)).buffer()
+  const fondoURL = 'https://files.catbox.moe/cbx89a.jpg'
+  const thumb = await (await fetch(fondoURL)).buffer()
 
-  // PDF invisible
   const media = await prepareWAMessageMedia(
     {
-      document: { url: fondo },
+      document: { url: fondoURL},
       mimetype: 'application/pdf',
-      fileName: '⠀',
+      fileName: 'Registro',
       jpegThumbnail: thumb
-    },
-    { upload: conn.waUploadToServer }
-  )
+},
+    { upload: conn.waUploadToServer}
+)
 
-  // Texto de registro
   const caption = `
-*Ya estas registrado correctamente*
+🎉 *¡Registro exitoso!* 🎉
 
-> *Nombre* ${name}
-> *Edad* ${age}
-> *User* @${m.sender.split('@')[0]}
-> *Bot* ${botname}
+🧑‍💼 *Nombre:* ${name}
+🎂 *Edad:* ${age}
+🆔 *Usuario:* @${m.sender.split('@')[0]}
+🤖 *Bot:* ${botname}
 
-*\`Gracias por registrarte para ver los comandos usa #allmenu\`*
-`
+✨ Usa *#allmenu* para ver todos los comandos disponibles.
+`.trim()
 
-  // Menú interactivo
   const interactiveMessage = {
     header: {
       title: '',
       hasMediaAttachment: true,
       documentMessage: media.documentMessage
-    },
-    body: { text: caption },
-    /*footer: { text: '⠀' },*/
+},
+    body: {
+      text: caption
+},
     nativeFlowMessage: {
       buttons: [
         {
           name: 'single_select',
           buttonParamsJson: JSON.stringify({
-            title: '⠀',
+            title: '',
             sections: [
               {
-                title: 'SELECCIONE UNA CATEGORIA',
+                title: '📂 OPCIONES DISPONIBLES',
                 rows: [
-                  { header: '🌿 MENU COMPLETO', title: 'Comandos', id: '.allmenu' },
-                  { header: '🗑 Eliminar registro ', title: 'Eliminar registro', id: '.unreg' },
-                  { header: '⏳ Información del tiempo activo', title: 'Sobre el status', id: '.ping' },
+                  {
+                    header: '🌿 Menú completo',
+                    title: 'Ver comandos',
+                    id: '.allmenu'
+},
+                  {
+                    header: '🗑 Eliminar registro',
+                    title: 'Cancelar registro',
+                    id: '.unreg'
+},
+                  {
+                    header: '⏳ Estado del bot',
+                    title: 'Ver tiempo activo',
+                    id: '.ping'
+}
                 ]
-              }
+}
             ]
-          })
-        }
+})
+}
       ],
       messageParamsJson: ''
-    },
+},
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
@@ -91,17 +100,17 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         thumbnail: await (await fetch(icono)).buffer(),
         mediaType: 1,
         showAdAttribution: false
-      }
-    }
-  }
+}
+}
+}
 
   const msg = generateWAMessageFromContent(
     m.chat,
-    { viewOnceMessage: { message: { interactiveMessage } } },
-    { userJid: m.sender, quoted: m }
-  )
+    { viewOnceMessage: { message: { interactiveMessage}}},
+    { userJid: m.sender, quoted: m}
+)
 
-  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id })
+  await conn.relayMessage(m.chat, msg.message, { messageId: msg.key.id})
 }
 
 handler.help = ['reg']
