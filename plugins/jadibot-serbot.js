@@ -68,7 +68,7 @@ if (command === 'code') {
 command = 'qr'; 
 args.unshift('code')}
 const mcode = args[0] && /(--code|code)/.test(args[0].trim()) ? true : args[1] && /(--code|code)/.test(args[1].trim()) ? true : false
-let txtCode, codeBot, txtQR
+let txtCode // Eliminamos txtCode y codeBot de aquí para inicializarlos en connectionUpdate
 if (mcode) {
 args[0] = args[0].replace(/^--code$|^code$/, "").trim()
 if (args[1]) args[1] = args[1].replace(/^--code$|^code$/, "").trim()
@@ -104,31 +104,17 @@ version: version,
 generateHighQualityLinkPreview: true
 };
 
-/*const connectionOptions = {
-printQRInTerminal: false,
-logger: pino({ level: 'silent' }),
-auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({level: 'silent'})) },
-msgRetry,
-msgRetryCache,
-version: [2, 3000, 1015901307],
-syncFullHistory: true,
-browser: mcode ? ['Ubuntu', 'Chrome', '110.0.5585.95'] : ['itachi-Bot (Sub Bot)', 'Chrome','2.0.0'],
-defaultQueryTimeoutMs: undefined,
-getMessage: async (key) => {
-if (store) {
-//const msg = store.loadMessage(key.remoteJid, key.id)
-//return msg.message && undefined
-} return {
-conversation: 'Shadow-Bot',
-}}}*/
-
 let sock = makeWASocket(connectionOptions)
 sock.isInit = false
 let isInit = true
+let txtQR
+let txtCodeMessage
+let codeBotMessage
 
 async function connectionUpdate(update) {
 const { connection, lastDisconnect, isNewLogin, qr } = update
 if (isNewLogin) sock.isInit = false
+
 if (qr && !mcode) {
 if (m?.chat) {
 txtQR = await conn.sendMessage(m.chat, { image: await qrcode.toBuffer(qr, { scale: 8 }), caption: rtx.trim()}, { quoted: m})
@@ -155,25 +141,27 @@ const interactiveButtons = [{
     }];
 
     const interactiveMessage = {
-        image: { url: "https://files.catbox.moe/7xbyyf.jpg" },
+        image: { url: "https://files.catbox.moe/cbx89a.jpg" },
         caption: `*✨ ¡Tu código de vinculación está listo! ✨*\n\nUsa el siguiente código para conectarte como Sub-Bot:\n\n*Código:* ${rawCode.match(/.{1,4}/g)?.join("-")}\n\n> Haz clic en el botón de abajo para copiarlo fácilmente.`,
         title: "Código de Vinculación",
         footer: "Este código expirará en 45 segundos.",
         interactiveButtons
     };
 
-    txtCode = await conn.sendInteractiveMessage(m.chat, interactiveMessage, { quoted: m });
-    
-    
+    txtCodeMessage = await conn.sendInteractiveMessage(m.chat, interactiveMessage, { quoted: m });
     
     console.log(`Código de Vinculación: ${rawCode}`);
 }
-if (txtCode && txtCode.key) {
-setTimeout(() => { conn.sendMessage(m.sender, { delete: txtCode.key })}, 30000)
+
+// Bloque de eliminación de mensajes (se corrigieron los nombres de las variables)
+if (txtCodeMessage && txtCodeMessage.key) {
+    setTimeout(() => { conn.sendMessage(m.sender, { delete: txtCodeMessage.key })}, 30000)
 }
-if (codeBot && codeBot.key) {
-setTimeout(() => { conn.sendMessage(m.sender, { delete: codeBot.key })}, 30000)
+if (codeBotMessage && codeBotMessage.key) {
+    setTimeout(() => { conn.sendMessage(m.sender, { delete: codeBotMessage.key })}, 30000)
 }
+// Fin del bloque de eliminación de mensajes
+
 const endSesion = async (loaded) => {
 if (!loaded) {
 try {
@@ -237,7 +225,7 @@ console.log(chalk.bold.cyanBright(`\n❒⸺⸺⸺⸺【• SUB-BOT •】⸺⸺�
 sock.isInit = true
 global.conns.push(sock)
 
-m?.chat ? await conn.reply(m.chat, `@${m.sender.split('@')[0]}, *Genial, ya eres parte de la familia Sub-Bots. Tu subbot está conectado. En caso de que se desconecte, use el "token" y gracias por el apoyo. Cualquier error contacta al owner 📪*\n> Subbot guardado en la carpeta *Jadibot*`, m, global.rcanal) : ''; // CAMBIO 3: Simplificación a conn.reply con el mensaje y argumentos solicitados
+m?.chat ? await conn.reply(m.chat, `@${m.sender.split('@')[0]}, *Genial, ya eres parte de la familia Sub-Bots. Tu subbot está conectado. En caso de que se desconecte, use el "token" y gracias por el apoyo. Cualquier error contacta al owner 📪*\n> Subbot guardado en la carpeta *Jadibot*`, m, global.rcanal) : '';
   
 }}
 setInterval(async () => {
@@ -299,4 +287,4 @@ hours = (hours < 10) ? '0' + hours : hours
 minutes = (minutes < 10) ? '0' + minutes : minutes
 seconds = (seconds < 10) ? '0' + seconds : seconds
 return minutes + ' m y ' + seconds + ' s '
-                         }
+}
