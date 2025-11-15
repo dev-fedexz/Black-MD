@@ -2,7 +2,7 @@ import { execSync } from 'child_process';
 
 let handler = async (m, { conn, args }) => { 
     try { 
-        await conn.reply(m.chat, '🍁 *Actualizando* el bot, Espere mi creador', m, rcanal)
+        await conn.reply(m.chat, '🌾 *Actualizando* el bot, Espere mi creador', m, rcanal)
 
         const output = execSync('git pull' + (args.length ? ' ' + args.join(' ') : '')).toString();
         let response = output.includes('Already up to date') 
@@ -16,7 +16,7 @@ let handler = async (m, { conn, args }) => {
             const status = execSync('git status --porcelain').toString().trim(); 
             if (status) { 
                 const conflictedFiles = status.split('\n').filter(line => 
-                    !line.includes('Shadow/Session/') && 
+                    !line.includes('SShadow/Sessions/') && 
                     !line.includes('.cache/') && 
                     !line.includes('tmp/')
                 ); 
