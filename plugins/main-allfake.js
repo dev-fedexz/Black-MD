@@ -102,9 +102,9 @@ global.fake = {
 
 // === GLOBAL IMG ===
 global.icono = [
-'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/2ead00-1761433435253.jpg',
-'https://raw.githubusercontent.com/El-brayan502/dat2/main/uploads/a8b8ec-1761433485401.jpg',
-'https://raw.githubusercontent.com/El-brayan502/dat4/main/uploads/925053-1761433519795.jpg',
+'https://files.catbox.moe/p0fk5h.jpg',
+'https://files.catbox.moe/cbx89a.jpg',
+'https://files.catbox.moe/p0fk5h.jpg',
 ].getRandom()
 
 global.menum = [ 
