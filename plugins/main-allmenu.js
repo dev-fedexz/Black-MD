@@ -3,8 +3,9 @@ import { format} from 'util'
 
 let handler = async (m, { conn, args}) => {
   let mentionedJid = m.mentionedJid && m.mentionedJid[0]? m.mentionedJid[0]: m.sender
-  let user = global.db.data.users[mentionedJid] || {}
-  let nombre = conn.getName(mentionedJid)
+  let userId = mentionedJid // ← Definición necesaria para contextInfo
+  let user = global.db.data.users[userId] || {}
+  let nombre = conn.getName(userId)
   let premium = user.premium? '✅ Sí': '❌ No'
   let uptime = format(process.uptime() * 1000).split('.')[0]
   let groupsCount = Object.values(conn.chats).filter(v => v.isGroup).length
@@ -24,6 +25,7 @@ let handler = async (m, { conn, args}) => {
 ❐ _Grupos activos:_ ${groupsCount}
 ❐ _Comandos disponibles:_ ${totalCommands}
 ❐ _Fecha actual:_ [${new Date().toLocaleString('es-ES')}]
+
 
 
 > ꒷︶꒥꒷‧₊ ໒( 𝙸𝚗𝚏𝚘𝚛𝚖𝚊𝚌𝚒ó𝚗 )७ ₊˚꒷︶꒷꒥꒷
@@ -257,28 +259,32 @@ let handler = async (m, { conn, args}) => {
 > ➩ *_.ssweb_*
 > ➩ *_.ss_*
 > ➩ *_.tomp3_*
-> ➩ *_.toaudio_*`.trim()
-await conn.sendMessage(m.chat, { 
-text: txt,
-contextInfo: {
-mentionedJid: [userId],
-isForwarded: true,
-forwardedNewsletterMessageInfo: {
-newsletterJid: channelRD.id,
-serverMessageId: '',
-newsletterName: channelRD.name
+> ➩ *_.toaudio_*
+`.trim()
+
+  await conn.sendMessage(m.chat, {
+    text: txt,
+    contextInfo: {
+      mentionedJid: [userId],
+      isForwarded: true,
+      forwardedNewsletterMessageInfo: {
+        newsletterJid: channelRD.id,
+        serverMessageId: '',
+        newsletterName: channelRD.name
 },
-externalAdReply: {
-title: botname,
-body: textbot,
-mediaType: 1,
-mediaUrl: redes,
-sourceUrl: redes,
-thumbnail: await (await fetch(banner)).buffer(),
-showAdAttribution: false,
-containsAutoReply: true,
-renderLargerThumbnail: true
-}}}, { quoted: m })
+      externalAdReply: {
+        title: botname,
+        body: textbot,
+        mediaType: 1,
+        mediaUrl: redes,
+        sourceUrl: redes,
+        thumbnail: await (await fetch(banner)).buffer(),
+        showAdAttribution: false,
+        containsAutoReply: true,
+        renderLargerThumbnail: true
+}
+}
+}, { quoted: m})
 }
 
 handler.help = ['menu']
