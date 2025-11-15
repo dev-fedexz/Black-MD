@@ -1,10 +1,10 @@
 import fs from 'fs';
-import fetch from 'node-fetch';
 
 let handler = async (m, { conn, usedPrefix}) => {
-  const nombre = await conn.getName(m.sender);
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  let nombre = await conn.getName(m.sender);
 
-  const tags = {
+  let tags = {
     info: '📘 ɪɴғᴏʀᴍᴀᴄɪᴏ́ɴ',
     anime: '🎎 ᴀɴɪᴍᴇ & ᴡᴀɪғᴜs',
     buscador: '🔍 ʙᴜsᴄᴀᴅᴏʀᴇs',
@@ -24,27 +24,27 @@ let handler = async (m, { conn, usedPrefix}) => {
     herramientas: '🛠️ ʜᴇʀʀᴀᴍɪᴇɴᴛᴀs'
 };
 
-  const header = '%category';
-  const body = '> ര ׄ ☃️ ׅ *_%cmd_*';
-  const footer = '';
-  const after = '';
+  let header = '%category';
+  let body = '> ര ׄ ☃️ ׅ *_%cmd_*';
+  let footer = '';
+  let after = ``;
 
-  const user = global.db.data.users[m.sender];
-  const premium = user.premium? 'sɪ́': 'ɴᴏ';
-  const limit = user.limit || 0;
-  const totalreg = Object.keys(global.db.data.users).length;
-  const groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length;
-  const uptime = clockString(process.uptime());
+  let user = global.db.data.users[m.sender];
+  let premium = user.premium? 'sɪ́': 'ɴᴏ';
+  let limit = user.limit || 0;
+  let totalreg = Object.keys(global.db.data.users).length;
+  let groupsCount = Object.values(conn.chats).filter(v => v.id.endsWith('@g.us')).length;
+  let uptime = clockString(process.uptime());
 
   function clockString(seconds) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor(seconds % 3600 / 60);
-    const s = Math.floor(seconds % 60);
+    let h = Math.floor(seconds / 3600);
+    let m = Math.floor(seconds % 3600 / 60);
+    let s = Math.floor(seconds % 60);
     return [h, m, s].map(v => v.toString().padStart(2, '0')).join(':');
 }
 
-  const infoUser = `
-🌵 ʜᴏʟᴀ, ꜱᴏʏ ᴋᴜʀᴜᴍɪ - ʙᴏᴛ
+  let infoUser = `
+🌵 ʜᴏʟᴀ, ꜱᴏʏ *Shadow - Bot*
 📚 ᴜꜱᴜᴀʀɪᴏ: ${nombre}
 ☕ ʙᴀɪʟᴇʏꜱ: fedExz-Bails
 🍉 ᴘʀᴇᴍɪᴜᴍ: ${premium}
@@ -54,15 +54,15 @@ let handler = async (m, { conn, usedPrefix}) => {
 📡 ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ: [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
-  const commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
+  let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
     help: Array.isArray(v.help)? v.help: [v.help],
     tags: Array.isArray(v.tags)? v.tags: [v.tags],
     command: Array.isArray(v.command)? v.command: [v.command]
 }));
 
-  const menu = [];
-  for (const tag in tags) {
-    const comandos = commands
+  let menu = [];
+  for (let tag in tags) {
+    let comandos = commands
 .filter(command => command.tags.includes(tag))
 .map(command => command.command.map(cmd => body.replace(/%cmd/g, usedPrefix + cmd)).join('\n'))
 .join('\n');
@@ -71,8 +71,9 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 }
 
-  const finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
-  const videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
+  let finalMenu = infoUser + '\n\n' + menu.join('\n\n') + '\n' + after;
+
+  let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
 
   await m.react('🌻');
 
@@ -84,18 +85,19 @@ let handler = async (m, { conn, usedPrefix}) => {
       isForwarded: true,
       forwardingScore: 999,
       externalAdReply: {
-        title: '🌴 Ｓｈａｄｏｗ'Ｓ - Ｂｏｔ 🌴',
-        body: '🄲 𝘗𝘰𝘸𝘦𝘳𝘦𝘥 𝘣𝘺 𝘋𝘦𝘷-𝘧𝘦𝘥𝘦𝘹𝘺𝘻',
-        thumbnailUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84L5BFQGUUr',
-        thumbnail: await (await fetch('https://files.catbox.moe/kdklcf.jpg')).buffer(),
-        sourceUrl: 'https://chat.whatsapp.com/E6bm08DbKnB84LhBFQrUUr',
+        title: '🌵 Shadow - Bot - ᴏғғɪᴄɪᴀʟ', 
+        body: '© ᴍᴀᴅᴇ ʙʏ ᴅᴇᴠ-ғᴇᴅᴇxʏᴢᴢ',
         mediaType: 1,
-        showAdAttribution: false
+        renderLargerThumbnail: true
 }
 },
     buttons: [
+      // Botón 1: .code (Ser Sub-Bot)
       { buttonId: `${usedPrefix}code`, buttonText: { displayText: '🪐 sᴇʀ sᴜʙ-ʙᴏᴛ'}, type: 1},
-      { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '🌾 ᴄᴏᴍᴀɴᴅᴏꜱ'}, type: 1}
+      // Botón 2: .ping (Velocidad)
+      { buttonId: `${usedPrefix}ping`, buttonText: { displayText: '⚡ ᴠᴇʟᴏᴄɪᴅᴀᴅ ᴅᴇʟ ʙᴏᴛ'}, type: 1},
+      // Botón 3: Copiar texto
+      { buttonId: 'copy_fede', buttonText: { displayText: '💌 ᴄᴏᴘɪᴀʀ ᴍᴇɴsᴀᴊᴇ'}, type: 1, quickReplyButton: { displayText: '💌 ᴄᴏᴘɪᴀʀ ᴍᴇɴsᴀᴊᴇ', id: 'copy_fede', copy: 'My love fede 👻'} }
     ]
 }, { quoted: m});
 };
