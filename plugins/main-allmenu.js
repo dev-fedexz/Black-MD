@@ -44,14 +44,14 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 
   let infoUser = `
-🌵 ʜᴏʟᴀ, ꜱᴏʏ *Shadow - Bot*
-📚 ᴜꜱᴜᴀʀɪᴏ: ${nombre}
-☕ ʙᴀɪʟᴇʏꜱ: fedExz-Bails
-🍉 ᴘʀᴇᴍɪᴜᴍ: ${premium}
-⏳ ᴛɪᴇᴍᴘᴏ ᴀᴄᴛɪᴠᴏ: ${uptime}
-☁️ ɢʀᴜᴘᴏꜱ ᴀᴄᴛɪᴠᴏꜱ: ${groupsCount}
-🌿 ᴄᴏᴍᴀɴᴅᴏꜱ ᴅɪꜱᴘᴏɴɪʙʟᴇꜱ: ${Object.keys(global.plugins).length}
-📡 ꜰᴇᴄʜᴀ ᴀᴄᴛᴜᴀʟ: [${new Date().toLocaleString('es-ES')}]
+🌵 Hola, Soy *Shadow - Bot*
+
+📚 Usuario: ${nombre}
+🍉 Premium: ${premium}
+⏳ Tiempoactivo: ${uptime}
+☁️ Grupos activos: ${groupsCount}
+🌿 Comandos disponibles: ${Object.keys(global.plugins).length}
+📡 Fecha actual: [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
   let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
