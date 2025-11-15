@@ -339,36 +339,6 @@ if (!opts['test']) {
   }, 30 * 1000)
 }
 
-function clockString(ms) {
-    let d = Math.floor(ms / (1000 * 60 * 60 * 24));
-    let h = Math.floor((ms / (1000 * 60 * 60)) % 24);
-    let m = Math.floor((ms / (1000 * 60)) % 60);
-    let s = Math.floor((ms / 1000) % 60);
-    return [
-        d,
-        h,
-        m,
-        s
-    ].map(v => v.toString().padStart(2, 0)).join(':');
-}
-
-async function setBotProfileStatus(conn) {
-    if (!conn || !conn.user || !global.timestamp.start) return;
-
-    const botName = global.botname || "Shadow-Bot";
-    const runtime = clockString(new Date() - global.timestamp.start);
-    
-    const statusText = `${botName} | Estado: Activo ✅ | Runtime: ${runtime}`;
-
-    try {
-        await conn.updateProfileStatus(statusText);
-        console.log(chalk.bold.green(`[ ✿ ] Descripción del perfil actualizada: ${statusText}`));
-    } catch (e) {
-        console.error(chalk.bold.red(`[ ⚠︎ ] Error al actualizar la descripción del perfil: ${e?.message || e}`));
-    }
-}
-
-
 async function resolveLidToRealJid(lidJid, groupJid, maxRetries = 3, retryDelay = 1000) {
   if (!lidJid?.endsWith("@lid") || !groupJid?.endsWith("@g.us")) return lidJid?.includes("@") ? lidJid : `${lidJid}@s.whatsapp.net`
   const cached = lidCache.get(lidJid)
@@ -484,8 +454,6 @@ async function connectionUpdate(update) {
     const userName = conn.user.name || conn.user.verifiedName || "Desconocido"
     await joinChannels(conn)
     console.log(chalk.green.bold(`[ ✿ ]  Conectado a: ${userName}`))
-    
-    await setBotProfileStatus(conn);
   }
   let reason = new Boom(lastDisconnect?.error)?.output?.statusCode
   if (connection === 'close') {
@@ -634,8 +602,9 @@ async function _quickTest() {
   const s = global.support = { ffmpeg, ffprobe, ffmpegWebp, convert, magick, gm, find }
   Object.freeze(global.support)
 }
-function clearTmp() {
-  const tmpDir = join(__dirname, 'tmp')
+function clearjadibot() {
+  const tmpDir = join(__dirname, 'jadibot')
+  if (!existsSync(tmpDir)) return
   const filenames = readdirSync(tmpDir)
   filenames.forEach(file => {
     const filePath = join(tmpDir, file)
@@ -714,8 +683,8 @@ function redefineConsoleMethod(methodName, filterStrings) {
 }
 setInterval(async () => {
   if (global.stopped === 'close' || !conn || !conn.user) return
-  await clearTmp()
-  console.log(chalk.bold.cyanBright(`\n⌦ Archivos de la carpeta TMP no necesarios han sido eliminados del servidor.`))
+  await clearjadibot()
+  console.log(chalk.bold.cyanBright(`\n⌦ Archivos de la carpeta JADIBOT no necesarios han sido eliminados del servidor.`))
 }, 1000 * 60 * 4)
 setInterval(async () => {
   if (global.stopped === 'close' || !conn || !conn.user) return
@@ -751,4 +720,4 @@ async function joinChannels(conn) {
   for (const channelId of Object.values(global.ch)) {
     await conn.newsletterFollow(channelId).catch(() => { })
   }
-       }
+  }
