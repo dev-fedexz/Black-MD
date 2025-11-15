@@ -121,14 +121,6 @@ if (qr) {
     
     console.log(`Código de Vinculación: ${rawCode}`);
 
-    setTimeout(async () => {
-        if (sock.ws.readyState === CONNECTING) { 
-            console.log(chalk.bold.yellow(`[ ⏳ REINTENTO ] Reenviando código a +${path.basename(pathShadowJadiBot)} por inactividad.`));
-            await conn.sendMessage(m.chat, { 
-                text: `*[ ⏳ CÓDIGO EXPIRADO ]*\n\n> *Tu código de vinculación expiró o no se usó. Usa este nuevo código para ser Sub-Bot:*\n${pairingCodeMessage}`.trim()
-            }, { quoted: m });
-        }
-    }, REATTEMPT_DELAY_MS);
 }
 
 if (txtCodeMessage && txtCodeMessage.key) {
