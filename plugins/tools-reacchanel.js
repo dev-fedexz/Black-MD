@@ -36,4 +36,4 @@ handler.tags = ['tools'];
 handler.help = ['react <url> <emoji>'];
 handler.register = true;
 
-module.exports = handler;
+export default handler;
