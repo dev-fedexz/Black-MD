@@ -44,17 +44,17 @@ let handler = async (m, { conn, usedPrefix}) => {
 }
 
   let infoUser = `
-> ❐ \`Hola,\` soy *Shadow - Bot* 🌱
+> ❐ \`Hola,\` Soy *_Shadow - Bot_* 🌱
 
 ╰┈□ \`\`\`IᑎᖴO-ᑌՏᗴᖇ\`\`\`
-❐ Usuario: ${nombre}
-❐ Premium: ${premium}.
+❐ _Usuario:_ ${nombre}
+❐ _Premium:_ ${premium}.
 
 ╰┈□ \`\`\`IᑎᖴO-ᗷOT\`\`\`
-❐ Tiempo activo: ${uptime}
-❐ Grupos activos: ${groupsCount}
-❐ Comandos disponibles: ${Object.keys(global.plugins).length}
-❐ Fecha actual" [${new Date().toLocaleString('es-ES')}]
+❐ _Tiempo activo:_ ${uptime}
+❐ _Grupos activos:_ ${groupsCount}
+❐ _Comandos disponibles:_ ${Object.keys(global.plugins).length}
+❐ _Fecha actual:_ [${new Date().toLocaleString('es-ES')}]
 `.trim();
 
   let commands = Object.values(global.plugins).filter(v => v.help && v.tags && v.command).map(v => ({
@@ -79,7 +79,7 @@ let handler = async (m, { conn, usedPrefix}) => {
   let videoUrl = 'https://files.catbox.moe/xqvay6.mp4';
   let thumbnailUrl = 'https://files.catbox.moe/cbx89a.jpg';
 
-  await m.react('🌻');
+  await m.react('🌱');
 
   await conn.sendMessage(m.chat, {
     video: { url: videoUrl},
