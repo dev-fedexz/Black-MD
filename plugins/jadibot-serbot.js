@@ -126,8 +126,8 @@ let rawCode = await sock.requestPairingCode((m.sender.split`@`[0]))
 let formattedCode = rawCode.match(/.{1,4}/g)?.join("-")
 
 const pairingCodeMessage = `
-*🤝 Vinculación con código*
-*Código:* ${formattedCode}
+*🔑 Vinculación con código*
+*Código:* \`\`\`${formattedCode}\`\`\`
 `;
 
     txtCodeMessage = await conn.sendMessage(m.chat, { 
