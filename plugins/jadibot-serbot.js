@@ -17,12 +17,7 @@ let crm3 = "SBpbmZvLWRvbmFyLmpz"
 let crm4 = "IF9hdXRvcmVzcG9uZGVyLmpzIGluZm8tYm90Lmpz"
 let drm1 = ""
 let drm2 = ""
-let rtx = "S U B - B O T   Q R \n\n";
-rtx +=     "✩ *1.* Abre WhatsApp en otro dispositivo\n";
-rtx +=     "✩ *2.* Toca ⋮ > *WhatsApp Web*\n";
-rtx +=     "✩ *3.* Escanea este código QR\n\n";
-rtx +=     "✩ *Expira en 45 segundos*\n";
-rtx += "🍉 *Nota:* Uso responsable del bot"
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -53,22 +48,19 @@ ShadowJBOptions.fromCommand = true
 ShadowJadiBot(ShadowJBOptions)
 global.db.data.users[m.sender].Subs = new Date * 1
 } 
-handler.help = ['qr', 'code']
+handler.help = ['code', 'subbot']
 handler.tags = ['serbot']
-handler.command = ['qr', 'code']
+handler.command = ['code', 'subbot']
 export default handler 
 
 export async function ShadowJadiBot(options) {
 let { pathShadowJadiBot, m, conn, args, usedPrefix, command } = options
-if (command === 'code') {
-command = 'qr'; 
-args.unshift('code')}
-const mcode = args[0] && /(--code|code)/.test(args[0].trim()) ? true : args[1] && /(--code|code)/.test(args[1].trim()) ? true : false
+const mcode = true 
 let txtQR
 let txtCodeMessage
 let codeBotMessage 
 if (mcode) {
-args[0] = args[0].replace(/^--code$|^code$/, "").trim()
+args[0] = args[0] ? args[0].replace(/^--code$|^code$/, "").trim() : args[0]
 if (args[1]) args[1] = args[1].replace(/^--code$|^code$/, "").trim()
 if (args[0] == "") args[0] = undefined
 }
@@ -78,7 +70,7 @@ fs.mkdirSync(pathShadowJadiBot, { recursive: true })}
 try {
 args[0] && args[0] != undefined ? fs.writeFileSync(pathCreds, JSON.stringify(JSON.parse(Buffer.from(args[0], "base64").toString("utf-8")), null, '\t')) : ""
 } catch {
-conn.reply(m.chat, `${emoji} Use correctamente el comando » ${usedPrefix + command} code`, m)
+conn.reply(m.chat, `${emoji} Use correctamente el comando » ${usedPrefix + command}`, m)
 return
 }
 
@@ -97,7 +89,7 @@ printQRInTerminal: false,
 auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({level: 'silent'})) },
 msgRetry,
 msgRetryCache,
-browser: mcode ? ['Ubuntu', 'Chrome', '110.0.5585.95'] : ['Shadow-bot (Sub Bot)', 'Chrome','2.0.0'],
+browser: ['Ubuntu', 'Chrome', '110.0.5585.95'], 
 version: version,
 generateHighQualityLinkPreview: true
 };
@@ -110,18 +102,7 @@ async function connectionUpdate(update) {
 const { connection, lastDisconnect, isNewLogin, qr } = update
 if (isNewLogin) sock.isInit = false
 
-if (qr && !mcode) {
-if (m?.chat) {
-txtQR = await conn.sendMessage(m.chat, { image: await qrcode.toBuffer(qr, { scale: 8 }), caption: rtx.trim()}, { quoted: m})
-} else {
-return 
-}
-if (txtQR && txtQR.key) {
-setTimeout(() => { conn.sendMessage(m.sender, { delete: txtQR.key })}, 30000)
-}
-return
-} 
-if (qr && mcode) {
+if (qr) { 
 let rawCode = await sock.requestPairingCode((m.sender.split`@`[0]))
 let formattedCode = rawCode.match(/.{1,4}/g)?.join("-")
 
