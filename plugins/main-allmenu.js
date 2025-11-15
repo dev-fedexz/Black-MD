@@ -1,9 +1,12 @@
 import fetch from 'node-fetch'
 import { format} from 'util'
+import fs from 'fs'
 
 let handler = async (m, { conn, args}) => {
+  const banner = './src/shadow.jpg';
+
   let mentionedJid = m.mentionedJid && m.mentionedJid[0]? m.mentionedJid[0]: m.sender
-  let userId = mentionedJid // ← Definición necesaria para contextInfo
+  let userId = mentionedJid
   let user = global.db.data.users[userId] || {}
   let nombre = conn.getName(userId)
   let premium = user.premium? '✅ Sí': '❌ No'
@@ -278,7 +281,7 @@ let handler = async (m, { conn, args}) => {
         mediaType: 1,
         mediaUrl: redes,
         sourceUrl: redes,
-        thumbnail: await (await fetch(banner)).buffer(),
+        thumbnail: fs.readFileSync(banner),
         showAdAttribution: false,
         containsAutoReply: true,
         renderLargerThumbnail: true
